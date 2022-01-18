@@ -33,7 +33,7 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
       - name: Log into K8s cluster
-        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 tcs
+        run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 k8s-zma-website
       - name: Deploy image to cluster
         run: kubectl set image deployment/ui ui=ghcr.io/vzma/web-api:${{ github.sha }} --record -n zma-web-stack
       - name: Verify deployment
