@@ -1,5 +1,5 @@
 # Miami ARTCC 2020  - API
-An Express app that provides data to UI
+An Express app that provides data to UI 
 
 # License
 
