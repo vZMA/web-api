@@ -5,10 +5,10 @@ import path from 'path';
 const __dirname = path.resolve();
 
 const transport = nodemailer.createTransport({
-	host: "sunport.zabartcc.org",
+	host: "mail.zmaartcc.net",
 	port: 587,
 	auth: {
-		user: 'noreply@zabartcc.org',
+		user: 'no-reply@zmaartcc.org',
 		pass: process.env.EMAIL_PASSWORD
 	},
 });
