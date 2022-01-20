@@ -96,7 +96,7 @@ app.use((req, res, next) => {
 
 
 app.s3 = new aws.S3({
-	endpoint: new aws.Endpoint('sfo3.digitaloceanspaces.com'),
+	endpoint: new aws.Endpoint('nyc3.digitaloceanspaces.com'),
 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
