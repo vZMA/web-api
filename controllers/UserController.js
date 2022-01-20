@@ -159,7 +159,7 @@ router.post('/login', async (req, res) => {
 			const {data} = await axios.get(`https://ui-avatars.com/api/?name=${user.oi}&size=256&background=122049&color=ffffff`, {responseType: 'arraybuffer'});
 
 			await req.app.s3.putObject({
-				Bucket: 'zabartcc/avatars',
+				Bucket: 'zma-web/avatars',
 				Key: `${user.cid}-default.png`,
 				Body: data,
 				ContentType: 'image/png',
