@@ -7,6 +7,7 @@ const __dirname = path.resolve();
 const transport = nodemailer.createTransport({
 	host: "mail.zmaartcc.net",
 	port: 587,
+	secure: false,
 	auth: {
 		user: 'no-reply@zmaartcc.net',
 		pass: process.env.EMAIL_PASSWORD
