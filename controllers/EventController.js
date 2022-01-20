@@ -498,8 +498,8 @@ router.put('/:slug/notify', getUser, auth(['atm', 'datm', 'ec']), async (req, re
 			await transporter.sendMail({
 				to: signup.user.email,
 				from: {
-					name: "Albuquerque ARTCC",
-					address: 'noreply@zabartcc.org'
+					name: "Miami ARTCC",
+					address: 'no-reply@zmaartcc.net'
 				},
 				subject: `Position Assignments for ${getSignups.name} | Albuquerque ARTCC`,
 				template: 'event',

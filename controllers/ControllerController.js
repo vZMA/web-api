@@ -465,8 +465,8 @@ router.post('/visit', getUser, async (req, res) => {
 		await transporter.sendMail({
 			to: req.body.email,
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `Visiting Application Received | Albuquerque ARTCC`,
 			template: 'visitReceived',
@@ -475,10 +475,10 @@ router.post('/visit', getUser, async (req, res) => {
 			}
 		});
 		await transporter.sendMail({
-			to: 'atm@zabartcc.org, datm@zabartcc.org',
+			to: 'atm@zmaartcc.net, datm@zmaartcc.net',
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `New Visiting Application: ${res.user.fname} ${res.user.lname} | Albuquerque ARTCC`,
 			template: 'staffNewVisit',
@@ -530,8 +530,8 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 		await transporter.sendMail({
 			to: user.email,
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `Visiting Application Accepted | Albuquerque ARTCC`,
 			template: 'visitAccepted',
@@ -566,8 +566,8 @@ router.delete('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) =>
 		await transporter.sendMail({
 			to: user.email,
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `Visiting Application Rejected | Albuquerque ARTCC`,
 			template: 'visitRejected',
@@ -632,7 +632,7 @@ router.post('/:cid', microAuth, async (req, res) => {
 			to: "atm@zmaartcc.net; datm@zmaartcc.net; ta@zmaartcc.net",
 			from: {
 				name: "Miami ARTCC",
-				address: 'noreply@zmaartcc.net'
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `New ${req.body.vis ? 'Visitor' : 'Member'}: ${req.body.fname} ${req.body.lname} | Miami ARTCC`,
 			template: 'newController',
