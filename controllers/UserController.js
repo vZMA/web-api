@@ -113,10 +113,11 @@ router.post('/login', async (req, res) => {
 				message: "Token not issued by VATUSA"
 			};
 		}		
-		if(loginTokenData.aud !== 'ZAB') {
+		if(loginTokenData.aud !== 'ZMA') {
 			throw {
+				//JJ: I blame A. Robison for this awful line of code that caused the login to not work the way I wanted
 				code: 500, 
-				message: "Token not issued for ZAB"
+				message: "Token not issued for ZMA"
 			};
 		}
 
