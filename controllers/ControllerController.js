@@ -755,7 +755,7 @@ router.put('/:cid', getUser, auth(['atm', 'datm', 'ta', 'fe', 'ec', 'wm', 'ins',
 		const {data} = await axios.get(`https://ui-avatars.com/api/?name=${oi}&size=256&background=122049&color=ffffff`, {responseType: 'arraybuffer'});
 
 		await req.app.s3.putObject({
-			Bucket: 'zabartcc/avatars',
+			Bucket: 'zma-web/avatars',
 			Key: `${req.params.cid}-default.png`,
 			Body: data,
 			ContentType: 'image/png',
