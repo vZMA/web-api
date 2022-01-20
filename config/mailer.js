@@ -5,7 +5,7 @@ import path from 'path';
 const __dirname = path.resolve();
 
 const transport = nodemailer.createTransport({
-	host: "echo.mxrouting.net",
+	host: "mail.zmaartcc.net",
 	port: 587,
 	auth: {
 		user: 'no-reply@zmaartcc.net',
