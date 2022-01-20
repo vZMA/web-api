@@ -94,7 +94,7 @@ router.post('/request/new', getUser, async (req, res) => {
 				name: "Miami ARTCC",
 				address: 'no-reply@zmaartcc.net'
 			},
-			subject: `New Training Request: ${student.fname} ${student.lname} | Albuquerque ARTCC`,
+			subject: `New Training Request: ${student.fname} ${student.lname} | Miami ARTCC`,
 			template: 'newRequest',
 			context: {
 				student: student.fname + ' ' + student.lname,
@@ -188,7 +188,7 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 				name: "Miami ARTCC",
 				address: 'no-reply@zmaartcc.net'
 			},
-			subject: 'Training Request Taken | Albuquerque ARTCC',
+			subject: 'Training Request Taken | Miami ARTCC',
 			template: 'requestTaken',
 			context: {
 				student: student.fname + ' ' + student.lname,

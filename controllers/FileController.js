@@ -9,7 +9,7 @@ import getUser from '../middleware/getUser.js';
 import auth from '../middleware/auth.js';
 
 const s3 = new aws.S3({
-	endpoint: new aws.Endpoint('sfo3.digitaloceanspaces.com'),
+	endpoint: new aws.Endpoint('nyc3.digitaloceanspaces.com'),
 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
@@ -66,7 +66,7 @@ router.post('/downloads', getUser, auth(['atm', 'datm', 'ta', 'fe']), upload.sin
 		}
 		const tmpFile = await fs.readFile(req.file.path);
 		await s3.putObject({
-			Bucket: 'zabartcc/downloads',
+			Bucket: 'zma-web/downloads',
 			Key: req.file.filename,
 			Body: tmpFile,
 			ContentType: req.file.mimetype,
@@ -113,7 +113,7 @@ router.put('/downloads/:id', upload.single('download'), getUser, auth(['atm', 'd
 			}
 			const tmpFile = await fs.readFile(req.file.path);
 			await s3.putObject({
-				Bucket: 'zabartcc/downloads',
+				Bucket: 'zma-web/downloads',
 				Key: req.file.filename,
 				Body: tmpFile,
 				ContentType: req.file.mimetype,
@@ -210,7 +210,7 @@ router.post('/documents', getUser, auth(['atm', 'datm', 'ta', 'fe']), upload.sin
 
 			const tmpFile = await fs.readFile(req.file.path);
 			await s3.putObject({
-				Bucket: 'zabartcc/downloads',
+				Bucket: 'zma-web/downloads',
 				Key: req.file.filename,
 				Body: tmpFile,
 				ContentType: req.file.mimetype,
@@ -286,7 +286,7 @@ router.put('/documents/:slug', upload.single('download'), getUser, auth(['atm', 
 				}
 				const tmpFile = await fs.readFile(req.file.path);
 				await s3.putObject({
-					Bucket: 'zabartcc/downloads',
+					Bucket: 'zma-web/downloads',
 					Key: req.file.filename,
 					Body: tmpFile,
 					ContentType: req.file.mimetype,

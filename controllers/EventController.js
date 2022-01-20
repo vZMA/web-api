@@ -501,7 +501,7 @@ router.put('/:slug/notify', getUser, auth(['atm', 'datm', 'ec']), async (req, re
 					name: "Miami ARTCC",
 					address: 'no-reply@zmaartcc.net'
 				},
-				subject: `Position Assignments for ${getSignups.name} | Albuquerque ARTCC`,
+				subject: `Position Assignments for ${getSignups.name} | Miami ARTCC`,
 				template: 'event',
 				context: {
 					eventTitle: getSignups.name,

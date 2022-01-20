@@ -466,7 +466,7 @@ router.post('/visit', getUser, async (req, res) => {
 				name: "Miami ARTCC",
 				address: 'no-reply@zmaartcc.net'
 			},
-			subject: `Visiting Application Received | Albuquerque ARTCC`,
+			subject: `Visiting Application Received | Miami ARTCC`,
 			template: 'visitReceived',
 			context: {
 				name: `${res.user.fname} ${res.user.lname}`,
@@ -478,7 +478,7 @@ router.post('/visit', getUser, async (req, res) => {
 				name: "Miami ARTCC",
 				address: 'no-reply@zmaartcc.net'
 			},
-			subject: `New Visiting Application: ${res.user.fname} ${res.user.lname} | Albuquerque ARTCC`,
+			subject: `New Visiting Application: ${res.user.fname} ${res.user.lname} | Miami ARTCC`,
 			template: 'staffNewVisit',
 			context: {
 				user: userData
@@ -531,7 +531,7 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 				name: "Miami ARTCC",
 				address: 'no-reply@zmaartcc.net'
 			},
-			subject: `Visiting Application Accepted | Albuquerque ARTCC`,
+			subject: `Visiting Application Accepted | Miami ARTCC`,
 			template: 'visitAccepted',
 			context: {
 				name: `${user.fname} ${user.lname}`,
@@ -567,7 +567,7 @@ router.delete('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) =>
 				name: "Miami ARTCC",
 				address: 'no-reply@zmaartcc.net'
 			},
-			subject: `Visiting Application Rejected | Albuquerque ARTCC`,
+			subject: `Visiting Application Rejected | Miami ARTCC`,
 			template: 'visitRejected',
 			context: {
 				name: `${user.fname} ${user.lname}`,

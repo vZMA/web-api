@@ -266,7 +266,7 @@ router.post('/discord', async (req, res) => {
 		const {data: discordUser} = await axios.get('https://discord.com/api/users/@me', {
 			headers: {
 				'Authorization': `${token.token_type} ${token.access_token}`,
-				'User-Agent': 'Albuquerque ARTCC API'
+				'User-Agent': 'Miami ARTCC API'
 			}
 		}).catch(err => {
 			console.log(err);
