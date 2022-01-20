@@ -120,7 +120,7 @@ router.put('/:slug/signup', getUser, async (req, res) => {
 		if(res.user.member === false) {
 			throw {
 				code: 403,
-				message: "You must be a member of ZAB"
+				message: "You must be a member of ZMA"
 			}
 		}
 
@@ -264,7 +264,7 @@ router.post('/', getUser, auth(['atm', 'datm', 'ec']), upload.single('banner'), 
 		const tmpFile = await fs.readFile(req.file.path);
 		
 		await req.app.s3.putObject({
-			Bucket: 'zabartcc/events',
+			Bucket: 'zma-web/events',
 			Key: req.file.filename,
 			Body: tmpFile,
 			ContentType: req.file.mimetype,
@@ -382,7 +382,7 @@ router.put('/:slug', getUser, auth(['atm', 'datm', 'ec']), upload.single('banner
 			}
 			const tmpFile = await fs.readFile(req.file.path);
 			await req.app.s3.putObject({
-				Bucket: 'zabartcc/events',
+				Bucket: 'zma-web/events',
 				Key: req.file.filename,
 				Body: tmpFile,
 				ContentType: req.file.mimetype,
