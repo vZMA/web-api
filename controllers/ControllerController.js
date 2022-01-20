@@ -19,7 +19,6 @@ dotenv.config();
 router.get('/', async ({res}) => {
 	try {
 		const home = await User.find({vis: false, cid: { "$nin": [995625] }}).select('-email -idsToken -discordInfo').sort({
-			rating: 'desc',
 			lname: 'asc',
 			fname: 'asc'
 		}).populate({
@@ -44,7 +43,6 @@ router.get('/', async ({res}) => {
 		}).lean({virtuals: true});
 	
 		const visiting = await User.find({vis: true}).select('-email -idsToken -discordInfo').sort({
-			rating: 'desc',
 			lname: 'asc',
 			fname: 'asc'
 		}).populate({
