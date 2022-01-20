@@ -612,7 +612,7 @@ router.post('/:cid', microAuth, async (req, res) => {
 		const {data} = await axios.get(`https://ui-avatars.com/api/?name=${userOi}&size=256&background=122049&color=ffffff`, {responseType: 'arraybuffer'});
 
 		await req.app.s3.putObject({
-			Bucket: 'zabartcc/avatars',
+			Bucket: 'zma-web/avatars',
 			Key: `${req.body.cid}-default.png`,
 			Body: data,
 			ContentType: 'image/png',
@@ -629,12 +629,12 @@ router.post('/:cid', microAuth, async (req, res) => {
 		const ratings = ['Unknown', 'OBS', 'S1', 'S2', 'S3', 'C1', 'C2', 'C3', 'I1', 'I2', 'I3', 'SUP', 'ADM'];
 
 		await transporter.sendMail({
-			to: "atm@zabartcc.org; datm@zabartcc.org; ta@zabartcc.org",
+			to: "atm@zmaartcc.net; datm@zmaartcc.net; ta@zmaartcc.net",
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'noreply@zmaartcc.net'
 			},
-			subject: `New ${req.body.vis ? 'Visitor' : 'Member'}: ${req.body.fname} ${req.body.lname} | Albuquerque ARTCC`,
+			subject: `New ${req.body.vis ? 'Visitor' : 'Member'}: ${req.body.fname} ${req.body.lname} | Miami ARTCC`,
 			template: 'newController',
 			context: {
 				name: `${req.body.fname} ${req.body.lname}`,
@@ -643,7 +643,7 @@ router.post('/:cid', microAuth, async (req, res) => {
 				rating: ratings[req.body.rating],
 				vis: req.body.vis,
 				type: req.body.vis ? 'visitor' : 'member',
-				home: req.body.vis ? req.body.homeFacility : 'ZAB'
+				home: req.body.vis ? req.body.homeFacility : 'ZMA'
 			}
 		});
 
