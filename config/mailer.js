@@ -8,7 +8,7 @@ const transport = nodemailer.createTransport({
 	host: "echo.mxrouting.net",
 	port: 587,
 	auth: {
-		user: 'no-reply@zmaartcc.org',
+		user: 'no-reply@zmaartcc.net',
 		pass: process.env.EMAIL_PASSWORD
 	},
 });
