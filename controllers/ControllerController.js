@@ -538,7 +538,7 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 			}
 		});
 
-		await axios.post(`https://api.vatusa.net/v2/facility/ZAB/roster/manageVisitor/${req.params.cid}?apikey=${process.env.VATUSA_API_KEY}`)
+		await axios.post(`https://api.vatusa.net/v2/facility/ZMA/roster/manageVisitor/${req.params.cid}?apikey=${process.env.VATUSA_API_KEY}`)
 
 		await req.app.dossier.create({
 			by: res.user.cid,
@@ -799,7 +799,7 @@ router.delete('/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 		});
 
 		if(user.vis) {
-			await axios.delete(`https://api.vatusa.net/v2/facility/ZAB/roster/manageVisitor/${req.params.cid}`, {
+			await axios.delete(`https://api.vatusa.net/v2/facility/ZMA/roster/manageVisitor/${req.params.cid}`, {
 				params: {
 					apikey: process.env.VATUSA_API_KEY,
 				},
@@ -808,7 +808,7 @@ router.delete('/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 				}
 			});
 		} else {
-			await axios.delete(`https://api.vatusa.net/v2/facility/ZAB/roster/${req.params.cid}`, {
+			await axios.delete(`https://api.vatusa.net/v2/facility/ZMA/roster/${req.params.cid}`, {
 				params: {
 					apikey: process.env.VATUSA_API_KEY,
 				},
