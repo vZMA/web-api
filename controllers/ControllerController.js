@@ -677,7 +677,27 @@ router.put('/:cid/member', microAuth, async (req, res) => {
 		user.joinDate = req.body.member ? new Date() : null;
 
 		await user.save();
-
+		const ratings = ['Unknown', 'OBS', 'S1', 'S2', 'S3', 'C1', 'C2', 'C3', 'I1', 'I2', 'I3', 'SUP', 'ADM'];
+		if(req.body.member){
+		await transporter.sendMail({
+			to: 'atm@zmaartcc.net, datm@zmaartcc.net, ta@zmaartcc.net',
+			from: {
+				name: "Miami ARTCC",
+				address: 'no-reply@zmaartcc.net'
+			},
+			subject: `New ${user.vis ? 'Visitor' : 'Member'}: ${user.fname} ${user.lname} | Miami ARTCC`,
+			template: 'newController',
+			context: {
+				name: `${user.fname} ${user.lname}`,
+				email: user.email,
+				cid: user.cid,
+				rating: ratings[user.rating],
+				vis: user.vis,
+				type: user.vis ? 'visitor' : 'member',
+				home: 'NA'
+			}
+		});
+		}
 		
 		await req.app.dossier.create({
 			by: -1,
