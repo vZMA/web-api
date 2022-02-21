@@ -627,7 +627,7 @@ router.post('/:cid', microAuth, async (req, res) => {
 		const ratings = ['Unknown', 'OBS', 'S1', 'S2', 'S3', 'C1', 'C2', 'C3', 'I1', 'I2', 'I3', 'SUP', 'ADM'];
 
 		await transporter.sendMail({
-			to: 'atm@zmaartcc.net; datm@zmaartcc.net; ta@zmaartcc.net',
+			to: 'atm@zmaartcc.net, datm@zmaartcc.net, ta@zmaartcc.net',
 			from: {
 				name: "Miami ARTCC",
 				address: 'no-reply@zmaartcc.net'
