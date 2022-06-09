@@ -58,7 +58,7 @@ router.post('/downloads', getUser, auth(['atm', 'datm', 'ta', 'fe']), upload.sin
 				message: 'You must select a category'
 			}
 		}
-		if(req.file.size > (20 * 1024 * 1024)) {	// 20MiB
+		if(req.file.size > (100 * 1024 * 1024)) {	// 20MiB
 			throw {
 				code: 400,
 				message: 'File too large'
