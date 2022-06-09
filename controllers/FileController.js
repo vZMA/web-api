@@ -105,7 +105,7 @@ router.put('/downloads/:id', upload.single('download'), getUser, auth(['atm', 'd
 			});
 		} else {
 
-			if(req.file.size > (20 * 1024 * 1024)) {	// 20MiB
+			if(req.file.size > (100 * 1024 * 1024)) {	// 20MiB
 				throw {
 					code: 400,
 					message: 'File too large'
