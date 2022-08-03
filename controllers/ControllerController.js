@@ -114,7 +114,7 @@ router.get('/staff', async (req, res) => {
 				users: []
 			},
 			ta: {
-				title: "Training Administrator",
+				title: "Training Administrators",
 				code: "ta",
 				users: []
 			},
@@ -129,7 +129,7 @@ router.get('/staff', async (req, res) => {
 				users: []
 			},
 			fe: {
-				title: "Facility Engineer",
+				title: "Facility Engineering Team",
 				code: "fe",
 				users: []
 			},
