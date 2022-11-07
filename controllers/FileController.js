@@ -201,7 +201,7 @@ router.post('/documents', getUser, auth(['atm', 'datm', 'ta', 'fe']), upload.sin
 		const slug = name.replace(/\s+/g, '-').toLowerCase().replace(/^-+|-+(?=-|$)/g, '').replace(/[^a-zA-Z0-9-_]/g, '') + '-' + Date.now().toString().slice(-5);
 
 		if(type === "file") {
-			if(req.file.size > (20 * 1024 * 1024)) {	// 20MiB
+			if(req.file.size > (100 * 1024 * 1024)) {	// 20MiB
 				throw {
 					code: 400,
 					message: 'File too large'
@@ -278,7 +278,7 @@ router.put('/documents/:slug', upload.single('download'), getUser, auth(['atm', 
 					type: 'file'
 				});
 			} else {
-				if(req.file.size > (20 * 1024 * 1024)) {	// 20MiB
+				if(req.file.size > (100 * 1024 * 1024)) {	// 20MiB
 					throw {
 						code: 400,
 						message: 'File too large.'
