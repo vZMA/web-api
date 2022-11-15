@@ -169,7 +169,7 @@ router.get('/ins', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr']), async (re
 	return res.json(res.stdRes);
 })
 
-router.get('/activity', getUser, auth(['atm', 'datm', 'ta', 'wm']), async (req, res) => {
+router.get('/activity', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), async (req, res) => {
 	try {
 		const today = L.utc();
 		const chkDate = today.minus({days: 31});
