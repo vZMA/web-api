@@ -22,7 +22,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/vzma/web-api:${{ github.sha }}
-            ghcr.io/vzma/web-api:master
+            ghcr.io/vzma/web-api:development
             ghcr.io/vzma/web-api:latest
   deploy-docker-image:
     needs: build-docker-image
