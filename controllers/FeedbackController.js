@@ -5,7 +5,6 @@ import User from '../models/User.js';
 import Notification from '../models/Notification.js';
 import getUser from '../middleware/getUser.js';
 import auth from '../middleware/auth.js';
-import transporter from "../config/mailer";
 
 router.get('/', getUser, auth(['atm', 'datm', 'ta']), async (req, res) => { // All feedback
 	try {
@@ -59,21 +58,6 @@ router.post('/', async (req, res) => { // Submit feedback
 			comments: req.body.comments,
 			anonymous: req.body.anon,
 			approved: false
-		});
-
-		await transporter.sendMail({
-			to: 'ksnifte@gmail.com',
-			from: {
-				name: "Miami ARTCC",
-				address: 'no-reply@zmaartcc.net'
-			},
-			subject: `New Controller Feedback Received | Miami ARTCC`,
-			template: 'newFeedback',
-			context: {
-				controllerCid: `${req.body.controllerCid}`,
-				name: `${req.body.position}`,
-				comments: `${req.body.comments}`,
-			}
 		});
 
 		await req.app.dossier.create({
