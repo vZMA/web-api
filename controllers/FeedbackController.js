@@ -5,7 +5,7 @@ import User from '../models/User.js';
 import Notification from '../models/Notification.js';
 import getUser from '../middleware/getUser.js';
 import auth from '../middleware/auth.js';
-import transporter from "../config/mailer";
+import transporter from "../config/mailer.js";
 
 router.get('/', getUser, auth(['atm', 'datm', 'ta']), async (req, res) => { // All feedback
 	try {
