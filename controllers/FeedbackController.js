@@ -70,9 +70,9 @@ router.post('/', async (req, res) => { // Submit feedback
 			subject: `New Controller Feedback Received | Miami ARTCC`,
 			template: 'newFeedback',
 			context: {
-				controllerCid: `${req.body.controllerCid}`,
-				name: `${req.body.position}`,
-				comments: `${req.body.comments}`,
+				controllerCid: `${req.body.controller}`,
+				name: `${req.body.name}`,
+				comments: `${req.body.comments}`
 			}
 		});
 
