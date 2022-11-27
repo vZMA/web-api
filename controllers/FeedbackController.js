@@ -62,7 +62,7 @@ router.post('/', async (req, res) => { // Submit feedback
 		});
 
 		await transporter.sendMail({
-			to: 'ksnifte@gmail.com',
+			to: 'atm@zmaartcc.net, datm@zmaartcc.net, ta@zmaartcc.net',
 			from: {
 				name: "Miami ARTCC",
 				address: 'no-reply@zmaartcc.net'
