@@ -16,8 +16,8 @@ export default function (req, res, next) {
 
   const params = new URLSearchParams();
   params.append("grant_type", "authorization_code");
-  params.append("client_id", process.env.VATSIM_AUTH_CLIENT_ID);
-  params.append("client_secret", process.env.VATSIM_AUTH_CLIENT_SECRET);
+  params.append("client_id", 1186 ); //process.env.VATSIM_AUTH_CLIENT_ID);
+  params.append("client_secret", 'qbSsj4Bn3mcLxZp6wGWO2m46a1ZVykY7s5ie2iKE' );//process.env.VATSIM_AUTH_CLIENT_SECRET);
   params.append("code", code);
   params.append("redirect_uri", redirectUrl);
 
