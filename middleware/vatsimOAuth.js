@@ -4,20 +4,12 @@ import axios from "axios";
 
 export default function (req, res, next) {
   const code = req.body.code;
-  let redirectUrl = "/login/verify";
-
-  
+   
   const vatsimOauthTokenEndpoint =
-    process.env.VATSIM_AUTH_ENDPOINT + "/oauth/token";
+    "https:auth.vatsim.net/oauth/token";
 
-  if (process.env.NODE_ENV === "beta") {
-    redirectUrl = "https://beta.zabartcc.org" + redirectUrl;
-  } else if (process.env.NODE_ENV === "production") {
-    redirectUrl = "https://zabartcc.org" + redirectUrl;
-  } else {
-    redirectUrl = "http://localhost:8080" + redirectUrl;
-  }
-
+  redirectUrl = "https://zmaartcc.net/login/verify";
+  
   if (!code) {
     res.status(400).send("No authorization code provided.");
   }
