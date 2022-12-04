@@ -5,7 +5,7 @@ import axios from "axios";
 export default {
   // Method utilizing access token from OAuth middle ware to retrieve user data needed to process a login from VATSIM API.
   async getUserInformation(accessToken) {
-    const getUserEndpoint = "https://auth-dev.vatsim.net/api/user";
+    const getUserEndpoint = "https://auth.vatsim.net/api/user";
 
     return await axios
       .get(getUserEndpoint, {
