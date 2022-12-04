@@ -471,22 +471,22 @@ router.post('/visit', getUser, async (req, res) => {
 		await transporter.sendMail({
 			to: req.body.email,
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'noreply@zmaartcc.net'
 			},
-			subject: `Visiting Application Received | Albuquerque ARTCC`,
+			subject: `Visiting Application Received | Miami ARTCC`,
 			template: 'visitReceived',
 			context: {
 				name: `${res.user.fname} ${res.user.lname}`,
 			}
 		});
 		await transporter.sendMail({
-			to: 'atm@zabartcc.org, datm@zabartcc.org',
+			to: 'atm@zmaartcc.net, datm@zmaartcc.net',
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'noreply@zmaartcc.net'
 			},
-			subject: `New Visiting Application: ${res.user.fname} ${res.user.lname} | Albuquerque ARTCC`,
+			subject: `New Visiting Application: ${res.user.fname} ${res.user.lname} | Miami ARTCC`,
 			template: 'staffNewVisit',
 			context: {
 				user: userData
@@ -536,8 +536,8 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 		await transporter.sendMail({
 			to: user.email,
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'noreply@zmaartcc.net'
 			},
 			subject: `Visiting Application Accepted | Albuquerque ARTCC`,
 			template: 'visitAccepted',
@@ -546,7 +546,7 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 			}
 		});
 
-		await axios.post(`https://api.vatusa.net/v2/facility/ZAB/roster/manageVisitor/${req.params.cid}?apikey=${process.env.VATUSA_API_KEY}`)
+		await axios.post(`https://api.vatusa.net/v2/facility/ZMA/roster/manageVisitor/${req.params.cid}?apikey=${process.env.VATUSA_API_KEY}`)
 
 		await req.app.dossier.create({
 			by: res.user.cid,

@@ -326,7 +326,7 @@ router.delete("/discord", getUser, async (req, res) => {
     res.user.discordInfo = undefined;
     await res.user.save();
   } catch (e) {
-    req.app.Sentry.captureException(e);
+        req.app.Sentry.captureException(e);
     res.stdRes.ret_det = e;
   }
 
