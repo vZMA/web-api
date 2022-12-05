@@ -209,8 +209,8 @@ router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm', '']), as
 		console.log(req.params.id);
 
 		const request = await TrainingRequest.findById(req.params.id);
-		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
-		const instructor = await User.findOne({cid: request.user.cid}).select('fname lname email').lean();
+		//const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
+		//const instructor = await User.findOne({cid: request.user.cid}).select('fname lname email').lean();
 		request.delete();
 
 	/*	if (instructor.email != '') 
