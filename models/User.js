@@ -52,13 +52,13 @@ userSchema.virtual('isMem').get(function() {
 
 userSchema.virtual('isMgt').get(function() {
 	if(!this.roleCodes) return false;
-	const search = ['atm', 'datm'];
+	const search = ['atm', 'datm', 'wm'];
 	return this.roleCodes.some(r => search.includes(r));
 });
 
 userSchema.virtual('isSenior').get(function() {
 	if(!this.roleCodes) return false;
-	const search = ['atm', 'datm', 'ta'];
+	const search = ['atm', 'datm', 'ta', 'wm'];
 	return this.roleCodes.some(r => search.includes(r));
 });
 
@@ -70,7 +70,7 @@ userSchema.virtual('isStaff').get(function() {
 
 userSchema.virtual('isIns').get(function() {
 	if(!this.roleCodes) return false;
-	const search = ['atm', 'datm', 'ta', 'ins', 'mtr'];
+	const search = ['atm', 'datm', 'ta', 'ins', 'mtr', 'wm'];
 	return this.roleCodes.some(r => search.includes(r));
 });
 
