@@ -210,7 +210,7 @@ router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm', '']), as
 
 		const request = await TrainingRequest.findById(req.params.id);
 		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
-		const instructor = await User.findOne({cid: res.user.cid}).select('fname lname email').lean();
+		const instructor = await User.findOne({cid: request.user.cid}).select('fname lname email').lean();
 		request.delete();
 
 		if (instructor.email != '') 
@@ -225,8 +225,8 @@ router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm', '']), as
 				context: {
 					student: student.fname + ' ' + student.lname,
 					instructor: instructor.fname + ' ' + instructor.lname,
-					startTime: new Date(session.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
-					endTime: new Date(session.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})
+					startTime: new Date(request.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
+					endTime: new Date(request.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})
 				}
 			
 		});
