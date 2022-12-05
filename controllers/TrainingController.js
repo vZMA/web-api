@@ -213,7 +213,7 @@ router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm', '']), as
 		const instructor = await User.findOne({cid: request.user.cid}).select('fname lname email').lean();
 		request.delete();
 
-		if (instructor.email != '') 
+	/*	if (instructor.email != '') 
 			transporter.sendMail({
 				to: `${student.email}, ${instructor.email}`,
 				from: {
@@ -230,7 +230,7 @@ router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm', '']), as
 				}
 			
 		});
-
+*/
 		await req.app.dossier.create({
 			by: res.user.cid,
 			affected: request.studentCid,
