@@ -128,7 +128,7 @@ router.get('/milestones', getUser, async (req, res) => {
 	return res.json(res.stdRes);
 });
 
-router.get('/request/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr']), async (req, res) => {
+router.get('/request/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
 		const days = +req.query.period || 21; // days from start of CURRENT week
 		const d = new Date(Date.now()),
@@ -154,7 +154,7 @@ router.get('/request/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr']), 
 	return res.json(res.stdRes);
 });
 
-router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr']), async (req, res) => {
+router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
 		if(new Date(req.body.startTime) >= new Date(req.body.endTime)) {
 			throw {
@@ -264,7 +264,7 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr']), 
 
 router.get('/session/:id', getUser, async(req, res) => {
 	try {
-		const isIns = ['ta', 'ins', 'mtr', 'atm', 'datm'].some(r => res.user.roleCodes.includes(r));
+		const isIns = ['ta', 'ins', 'mtr', 'atm', 'datm', 'wm'].some(r => res.user.roleCodes.includes(r));
 
 		if(isIns) {
 			const session = await TrainingSession.findById(

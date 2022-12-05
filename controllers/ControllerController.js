@@ -812,7 +812,8 @@ router.delete('/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 					apikey: process.env.VATUSA_API_KEY,
 				},
 				data: {
-					reason: req.body.reason
+					reason: req.body.reason,
+					by: req.user.cid			// Added to fix delete bug.  Thanks ZAU!
 				}
 			});
 		} else {
@@ -821,7 +822,8 @@ router.delete('/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 					apikey: process.env.VATUSA_API_KEY,
 				},
 				data: {
-					reason: req.body.reason
+					reason: req.body.reason,
+					by: req.user.cid		// Added to fix delete bug.  Thanks ZAU!
 				}
 			});
 		}
