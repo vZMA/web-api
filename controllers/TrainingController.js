@@ -208,6 +208,7 @@ router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm']), async 
 	try {
 		const request = await TrainingRequest.findById(req.params.id);
 		request.delete();
+		
 
 		await req.app.dossier.create({
 			by: res.user.cid,
