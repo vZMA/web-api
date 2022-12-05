@@ -162,7 +162,7 @@ router.post("/login", oAuth, async (req, res) => {
 
       await req.app.s3
         .putObject({
-          Bucket: 'zma-web/avatars",
+          Bucket: 'zma-web/avatars',
           Key: `${user.cid}-default.png`,
           Body: data,
           ContentType: "image/png",
