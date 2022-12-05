@@ -409,6 +409,32 @@ router.put('/session/save/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr'
 	return res.json(res.stdRes);
 });
 
+router.delete('session/delete/:id', getUser, auth(['atm', 'datm', 'ta', 'ec', 'fe', 'wm']), async (req, res) =>{
+	try {
+		const TrainingSession = await TrainingSession.findOne(req.params.id);
+		const status = await TrainingSession.delete();
+		
+		if(!status) {
+			throw {
+				code: 500,
+				message: "Something went wrong, please try again"
+			};
+		}
+
+		await req.app.dossier.create({
+			by: res.user.cid,
+			affected: -1,
+			action: `%b deleted the training session.`
+		});
+	}
+	catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}	
+
+	return res.json(res.stdRes);
+});
+
 router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr']), async(req, res) => {
 	try {
 		if(req.body.position === '' || req.body.progress === null || req.body.movements === null || req.body.location === null || req.body.ots === null || req.body.studentNotes === null || (req.body.studentNotes && req.body.studentNotes.length > 3000) || (req.body.insNotes && req.body.insNotes.length > 3000)) {
