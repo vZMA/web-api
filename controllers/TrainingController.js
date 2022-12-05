@@ -204,12 +204,32 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 	return res.json(res.stdRes);
 });
 
-router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm']), async (req, res) => {
+router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm', '']), async (req, res) => {
 	try {
 		console.log(req.params.id);
 
 		const request = await TrainingRequest.findById(req.params.id);
+		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
+		const instructor = await User.findOne({cid: res.user.cid}).select('fname lname email').lean();
 		request.delete();
+
+		if (instructor.email != '') 
+			transporter.sendMail({
+				to: `${student.email}, ${instructor.email}`,
+				from: {
+					name: "Miami ARTCC",
+					address: 'no-reply@zmaartcc.net'
+				},
+				subject: 'Training Request Cancelled | Miami ARTCC',
+				template: 'requestCancelled',
+				context: {
+					student: student.fname + ' ' + student.lname,
+					instructor: instructor.fname + ' ' + instructor.lname,
+					startTime: new Date(session.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
+					endTime: new Date(session.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})
+				}
+			
+		});
 
 		await req.app.dossier.create({
 			by: res.user.cid,
