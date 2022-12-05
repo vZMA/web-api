@@ -409,7 +409,7 @@ router.put('/session/save/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr'
 	return res.json(res.stdRes);
 });
 
-router.delete('session/delete/:id', getUser, auth(['atm', 'datm', 'ta', 'ec', 'fe', 'wm']), async (req, res) =>{
+router.delete('session/delete/:id', getUser, auth(['atm', 'datm', 'ta', 'ec', 'fe', 'wm', '']), async (req, res) =>{
 	try {
 		const TrainingSession = await TrainingSession.findOne(req.params.id);
 		const status = await TrainingSession.delete();
