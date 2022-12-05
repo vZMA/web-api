@@ -264,7 +264,7 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr']), 
 
 router.get('/session/:id', getUser, async(req, res) => {
 	try {
-		const isIns = ['ta', 'ins', 'mtr', 'atm', 'datm'].some(r => res.user.roleCodes.includes(r));
+		const isIns = ['ta', 'ins', 'mtr', 'atm', 'datm', 'wm'].some(r => res.user.roleCodes.includes(r));
 
 		if(isIns) {
 			const session = await TrainingSession.findById(
