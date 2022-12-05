@@ -204,7 +204,7 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 	return res.json(res.stdRes);
 });
 
-router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta']), async (req, res) => {
+router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm']), async (req, res) => {
 	try {
 		const request = await TrainingRequest.findById(req.params.id);
 		request.delete();
@@ -405,32 +405,6 @@ router.put('/session/save/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr'
 		req.app.Sentry.captureException(e);
 		res.stdRes.ret_det = e;
 	}
-
-	return res.json(res.stdRes);
-});
-
-router.delete('session/delete/:id', getUser, auth(['atm', 'datm', 'ta', 'ec', 'fe', 'wm', '']), async (req, res) =>{
-	try {
-		const TrainingSession = await TrainingSession.findOne(req.params.id);
-		const status = await TrainingSession.delete();
-		
-		if(!status) {
-			throw {
-				code: 500,
-				message: "Something went wrong, please try again"
-			};
-		}
-
-		await req.app.dossier.create({
-			by: res.user.cid,
-			affected: -1,
-			action: `%b deleted the training session.`
-		});
-	}
-	catch(e) {
-		req.app.Sentry.captureException(e);
-		res.stdRes.ret_det = e;
-	}	
 
 	return res.json(res.stdRes);
 });
