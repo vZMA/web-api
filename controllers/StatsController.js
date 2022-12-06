@@ -117,7 +117,7 @@ router.get('/admin', getUser, auth(['atm', 'datm', 'ta', 'fe', 'ec', 'wm']), asy
 	return res.json(res.stdRes);
 })
 
-router.get('/ins', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr']), async (req, res) => {
+router.get('/ins', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
 		let lastTraining = await TrainingSession.aggregate([
 			{$group: {
