@@ -207,7 +207,7 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 	return res.json(res.stdRes);
 });
 
-router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm', '']), async (req, res) => {
+router.delete('/request/:id', getUser, auth(['atm', 'datm', 'ta', 'wm', 'fe', 'ec', 'vis', '']), async (req, res) => {
 	try {
 		console.log(req.params.id);
 
