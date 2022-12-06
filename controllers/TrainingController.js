@@ -67,7 +67,10 @@ router.post('/request/new', getUser, async (req, res) => {
 
 		const totalRequests = await req.app.redis.get(`TRAININGREQ:${res.user.cid}`);
 		
-		if(totalRequests > 5) {
+		if( auth(['wm']) )
+		{// do noting }
+		}
+		else if (totalRequests > 5) {
 			throw {
 				code: 429,
 				message: `You have requested too many sessions in the last 4 hours.`
