@@ -812,18 +812,18 @@ router.delete('/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res) =>
 					apikey: process.env.VATUSA_API_KEY,
 				},
 				data: {
-					reason: req.body.reason,
+					reason: req.body.reason
 //					by: req.user.cid			// Added to fix delete bug.  Thanks ZAU!
 				}
 			});
 		} else {
-			await axios.delete(`https://api.vatusa.net/v2/facility/ZMA/roster/${req.params.cid}`, {
+			await axios.delete(`https://api.vatusa.net/v2/facility/ZMA/roster/${req.params.cid}` , {
 				params: {
 					apikey: process.env.VATUSA_API_KEY,
 				},
 				data: {
 					reason: req.body.reason,
-//					by: req.user.cid		// Added to fix delete bug.  Thanks ZAU!
+					by: req.user.cid		// Added to fix delete bug.  Thanks ZAU!
 				}
 			});
 		}
