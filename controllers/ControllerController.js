@@ -38,7 +38,7 @@ router.get('/', async ({res}) => {
 				expirationDate: {
 					$gte: new Date()
 				},
-				deleted: false
+				: false
 			},
 			select: '-reason'
 		}).lean({virtuals: true});
@@ -793,7 +793,7 @@ router.put('/:cid', getUser, auth(['atm', 'datm', 'ta', 'fe', 'ec', 'wm', 'ins',
 	return res.json(res.stdRes);
 });
 
-router.delete('/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
+router.delete('/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res) => {
 	try {
 		if(!req.body.reason) {
 			throw {
@@ -813,7 +813,7 @@ router.delete('/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 				},
 				data: {
 					reason: req.body.reason,
-					by: req.user.cid			// Added to fix delete bug.  Thanks ZAU!
+//					by: req.user.cid			// Added to fix delete bug.  Thanks ZAU!
 				}
 			});
 		} else {
@@ -823,7 +823,7 @@ router.delete('/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 				},
 				data: {
 					reason: req.body.reason,
-					by: req.user.cid		// Added to fix delete bug.  Thanks ZAU!
+//					by: req.user.cid		// Added to fix delete bug.  Thanks ZAU!
 				}
 			});
 		}
