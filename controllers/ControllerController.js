@@ -38,7 +38,7 @@ router.get('/', async ({res}) => {
 				expirationDate: {
 					$gte: new Date()
 				},
-				: false
+				deleted: false
 			},
 			select: '-reason'
 		}).lean({virtuals: true});
