@@ -823,7 +823,7 @@ router.delete('/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res) =>
 				},
 				data: {
 					reason: req.body.reason,
-					by: req.user.cid		// Added to fix delete bug.  Thanks ZAU!
+					by: res.user.cid		// Added to fix delete bug.  Thanks ZAU!
 				}
 			});
 		}
