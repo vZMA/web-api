@@ -198,7 +198,7 @@ router.get('/oi', async (req, res) => {
 	return res.json(res.stdRes);
 });
 
-router.get('/visit', getUser, auth(['atm', 'datm']), async ({res}) => {
+router.get('/visit', getUser, auth(['atm', 'datm', 'wm']), async ({res}) => {
 	try {
 		const applications = await VisitApplication.find({deletedAt: null, acceptedAt: null}).lean();
 		res.stdRes.data = applications;
@@ -210,7 +210,7 @@ router.get('/visit', getUser, auth(['atm', 'datm']), async ({res}) => {
 	return res.json(res.stdRes);	
 });
 
-router.get('/absence', getUser, auth(['atm', 'datm']), async(req, res) => {
+router.get('/absence', getUser, auth(['atm', 'datm', 'wm']), async(req, res) => {
 	try {
 		const absences = await Absence.find({
 			expirationDate: {
@@ -232,7 +232,7 @@ router.get('/absence', getUser, auth(['atm', 'datm']), async(req, res) => {
 	return res.json(res.stdRes);
 });
 
-router.post('/absence', getUser, auth(['atm', 'datm']), async(req, res) => {
+router.post('/absence', getUser, auth(['atm', 'datm', 'wm']), async(req, res) => {
 	try {
 		if(!req.body || req.body.controller === '' || req.body.expirationDate === 'T00:00:00.000Z' || req.body.reason === '') {
 			throw {
@@ -276,7 +276,7 @@ router.post('/absence', getUser, auth(['atm', 'datm']), async(req, res) => {
 	return res.json(res.stdRes);
 });
 
-router.delete('/absence/:id', getUser, auth(['atm', 'datm']), async(req, res) => {
+router.delete('/absence/:id', getUser, auth(['atm', 'datm', 'wm']), async(req, res) => {
 	try {
 		if(!req.params.id) {
 			throw {
@@ -519,7 +519,7 @@ router.get('/visit/status', getUser, async (req, res) => {
 	return res.json(res.stdRes);
 });
 
-router.put('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
+router.put('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res) => {
 	try {
 		await VisitApplication.delete({cid: req.params.cid});
 
@@ -563,7 +563,7 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
 });
 
 
-router.delete('/visit/:cid', getUser, auth(['atm', 'datm']), async (req, res) => {
+router.delete('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res) => {
 	try {
 		await VisitApplication.delete({cid: req.params.cid});
 
