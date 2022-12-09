@@ -91,21 +91,24 @@ router.post('/request/new', getUser, async (req, res) => {
 		const student = await User.findOne({cid: res.user.cid}).select('fname lname').lean();
 		const milestone = await TrainingMilestone.findOne({code: req.body.milestone}).lean();
 
-		transporter.sendMail({
-			to: 'training@zmaartcc.net',
-			from: {
-				name: "Miami ARTCC",
-				address: 'no-reply@zmaartcc.net'
-			},
-			subject: `New Training Request: ${student.fname} ${student.lname} | Miami ARTCC`,
-			template: 'newRequest',
-			context: {
-				student: student.fname + ' ' + student.lname,
-				startTime: new Date(req.body.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
-				endTime: new Date(req.body.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
-				milestone: milestone.code.toUpperCase() + ' - ' + milestone.name
-			}
-		});
+		// ==== EMAILS ARE DISABLED PER TA REQUEST 12/8/22 ====
+		// transporter.sendMail({
+		// 	to: 'training@zmaartcc.net',
+		// 	from: {
+		// 		name: "Miami ARTCC",
+		// 		address: 'no-reply@zmaartcc.net'
+		// 	},
+		// 	subject: `New Training Request: ${student.fname} ${student.lname} | Miami ARTCC`,
+		// 	template: 'newRequest',
+		// 	context: {
+		// 		student: student.fname + ' ' + student.lname,
+		// 		startTime: new Date(req.body.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
+		// 		endTime: new Date(req.body.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
+		// 		milestone: milestone.code.toUpperCase() + ' - ' + milestone.name
+		// 	}
+		// });
+		// ==== EMAILS ARE DISABLED PER TA REQUEST 12/8/22 ====
+		
 	} catch(e) {
 		req.app.Sentry.captureException(e);
 		res.stdRes.ret_det = e;
