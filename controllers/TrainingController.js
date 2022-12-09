@@ -449,7 +449,20 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 
 		const duration = `${('00' + hours).slice(-2)}:${('00' + minutes).slice(-2)}`;
 
+		/*const session = await TrainingSession.findByIdAndUpdate(req.params.id, {
+			position: req.body.position,
+			progress: req.body.progress,
+			duration: duration,
+			movements: req.body.movements,
+			location: req.body.location,
+			ots: req.body.ots,
+			studentNotes: req.body.studentNotes,
+			insNotes: req.body.insNotes,
+			submitted: true
+		});*/
+
 		const session = await TrainingSession.findByIdAndUpdate(req.params.id, {
+			sessiondate: req.body.startTime.slice(1,11),
 			position: req.body.position,
 			progress: req.body.progress,
 			duration: duration,
