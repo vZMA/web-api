@@ -300,7 +300,7 @@ router.get('/session/:id', getUser, async(req, res) => {
 			).populate(
 				'student', 'fname lname cid vis'
 			).populate(
-				'instructor', 'fname lname'
+				'instructor', 'fname lname cid'
 			).populate(
 				'milestone', 'name code'
 			).lean();
@@ -314,7 +314,7 @@ router.get('/session/:id', getUser, async(req, res) => {
 			).populate(
 				'student', 'fname lname cid vis'
 			).populate(
-				'instructor', 'fname lname'
+				'instructor', 'fname lname cid'
 			).populate(
 				'milestone', 'name code'
 			).lean();
