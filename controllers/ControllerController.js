@@ -572,10 +572,10 @@ router.delete('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, r
 		await transporter.sendMail({
 			to: user.email,
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'noreply@zmaartcc.net'
 			},
-			subject: `Visiting Application Rejected | Albuquerque ARTCC`,
+			subject: `Visiting Application Rejected | Miamik9s ARTCC`,
 			template: 'visitRejected',
 			context: {
 				name: `${user.fname} ${user.lname}`,
@@ -635,12 +635,12 @@ router.post('/:cid', microAuth, async (req, res) => {
 		const ratings = ['Unknown', 'OBS', 'S1', 'S2', 'S3', 'C1', 'C2', 'C3', 'I1', 'I2', 'I3', 'SUP', 'ADM'];
 
 		await transporter.sendMail({
-			to: "atm@zabartcc.org; datm@zabartcc.org; ta@zabartcc.org",
+			to: "atm@zmaartcc.net; datm@zmaartcc.net; ta@zmaartcc.net",
 			from: {
-				name: "Albuquerque ARTCC",
-				address: 'noreply@zabartcc.org'
+				name: "Miami ARTCC",
+				address: 'noreply@zmaartcc.org'
 			},
-			subject: `New ${req.body.vis ? 'Visitor' : 'Member'}: ${req.body.fname} ${req.body.lname} | Albuquerque ARTCC`,
+			subject: `New ${req.body.vis ? 'Visitor' : 'Member'}: ${req.body.fname} ${req.body.lname} | Miami ARTCC`,
 			template: 'newController',
 			context: {
 				name: `${req.body.fname} ${req.body.lname}`,
