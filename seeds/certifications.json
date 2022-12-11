@@ -6,7 +6,7 @@
   "facility": "gnd"
 },{
   "name": "Major Ground",
-  "code": "p50gnd",
+  "code": "mia_gnd",
   "order": 2,
   "class": "major",
   "facility": "gnd"
@@ -18,7 +18,7 @@
   "facility": "twr"
 },{
   "name": "Major Tower",
-  "code": "p50twr",
+  "code": "mia_twr",
   "order": 4,
   "class": "major",
   "facility": "twr"
@@ -30,14 +30,20 @@
   "facility": "app"
 },{
   "name": "Major Approach",
-  "code": "p50app",
+  "code": "mia_app",
   "order": 6,
   "class": "major",
   "facility": "app"
 },{
-  "name": "Albuquerque Center",
-  "code": "zab",
+  "name": "Miami Center",
+  "code": "zma",
   "order": 7,
   "class": "center",
   "facility": "ctr"
-}]
+},{
+  "name": "Oceanic Center",
+  "code": "zmo",
+  "order": 7,
+  "class": "center",
+  "facility": "ctr"}
+]
