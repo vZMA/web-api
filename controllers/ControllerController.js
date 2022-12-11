@@ -137,12 +137,12 @@ router.get('/staff', async (req, res) => {
 			},
 			ins: {
 				title: "Instructors",
-				code: "instructors",
+				code: "training",
 				users: []
 			},
 			mtr: {
 				title: "Mentors",
-				code: "instructors",
+				code: "training",
 				users: []
 			},
 			dta: {
@@ -539,7 +539,7 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res)
 				name: "Miami ARTCC",
 				address: 'noreply@zmaartcc.net'
 			},
-			subject: `Visiting Application Accepted | Albuquerque ARTCC`,
+			subject: `Visiting Application Accepted | Miami ARTCC`,
 			template: 'visitAccepted',
 			context: {
 				name: `${user.fname} ${user.lname}`,
@@ -575,7 +575,7 @@ router.delete('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, r
 				name: "Miami ARTCC",
 				address: 'noreply@zmaartcc.net'
 			},
-			subject: `Visiting Application Rejected | Miamik9s ARTCC`,
+			subject: `Visiting Application Rejected | Miami ARTCC`,
 			template: 'visitRejected',
 			context: {
 				name: `${user.fname} ${user.lname}`,
