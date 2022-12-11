@@ -137,7 +137,7 @@ router.get('/staff', async (req, res) => {
 			},
 			ins: {
 				title: "Instructors",
-				code: "training",
+				code: "instructors",
 				users: []
 			},
 			mtr: {
