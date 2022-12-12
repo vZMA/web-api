@@ -7,6 +7,7 @@ const trainingRequestSchema = new m.Schema({
 	startTime: Date,
 	endTime: Date,
 	milestoneCode: String,
+	trainingFacility: String,
 	remarks: String
 }, {
 	collection: "trainingRequests",
@@ -31,6 +32,13 @@ trainingRequestSchema.virtual('instructor', {
 	ref: 'User',
 	localField: 'instructorCid',
 	foreignField: 'cid',
+	justOne: true
+});
+
+trainingRequestSchema.virtual('trainingFacility', {
+	ref: 'TrainingFacility',
+	localField: 'trainingFacility',
+	foreignField: 'facilityName',
 	justOne: true
 });
 

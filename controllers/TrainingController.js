@@ -85,6 +85,7 @@ router.post('/request/new', getUser, async (req, res) => {
 			startTime: req.body.startTime,
 			endTime: req.body.endTime,
 			milestoneCode: req.body.milestone,
+			trainingFacility: req.body.trainingFacility,
 			remarks: req.body.remarks,
 		});
 
@@ -181,6 +182,7 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 			startTime: req.body.startTime,
 			endTime: req.body.endTime,
 			milestoneCode: request.milestoneCode,
+			trainingFacility: request.trainingFacility,
 			submitted: false
 		});
 
@@ -350,6 +352,8 @@ router.get('/session/:id', getUser, async(req, res) => {
 				'instructor', 'fname lname cid'
 			).populate(
 				'milestone', 'name code'
+			).populate(
+				'trainingFacility', 'facilityName'
 			).lean();
 
 			res.stdRes.data = session;
@@ -364,6 +368,8 @@ router.get('/session/:id', getUser, async(req, res) => {
 				'instructor', 'fname lname cid'
 			).populate(
 				'milestone', 'name code'
+			).populate(
+				'trainingFacility', 'facilityName'
 			).lean();
 
 			res.stdRes.data = session;
@@ -392,6 +398,8 @@ router.get('/sessions', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm'])
 			'instructor', 'fname lname'
 		).populate(
 			'milestone', 'name code'
+		).populate(
+			'trainingFacility', 'facilityName'
 		).lean();
 
 		res.stdRes.data = {
@@ -422,6 +430,8 @@ router.get('/sessions/past', getUser, async (req, res) => {
 			'student', 'fname lname'
 		).populate(
 			'milestone', 'name code'
+		).populate(
+			'trainingFacility', 'facilityName'
 		).lean();
 
 		res.stdRes.data = {
@@ -458,6 +468,8 @@ router.get('/sessions/:cid', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', '
 			'instructor', 'fname lname'
 		).populate(
 			'milestone', 'name code'
+		).populate(
+			'trainingFacility', 'facilityName'
 		).lean();
 
 		res.stdRes.data = {

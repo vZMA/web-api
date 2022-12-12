@@ -5,6 +5,7 @@ const trainingSessionSchema = new m.Schema({
 	studentCid: Number,
 	instructorCid: Number,
 	milestoneCode: String,
+	trainingFacility: String,
 	position: String,
 	startTime: Date,
 	endTime: Date,
@@ -41,6 +42,13 @@ trainingSessionSchema.virtual('instructor', {
 	ref: 'User',
 	localField: 'instructorCid',
 	foreignField: 'cid',
+	justOne: true
+});
+
+trainingSessionSchema.virtual('trainingFacility', {
+	ref: 'TrainingFacility',
+	localField: 'trainingFacility',
+	foreignField: 'facilityName',
 	justOne: true
 });
 
