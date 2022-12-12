@@ -305,8 +305,8 @@ router.delete('/session/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 
 					name: "Miami ARTCC",
 					address: 'no-reply@zmaartcc.net'
 				},
-				subject: 'Missed / Cancelled Training Session Deleted | Miami ARTCC',
-				template: 'sessionDeleted',
+				subject: 'Scheduled Training Session Cancelled| Miami ARTCC',
+				template: 'sessionCancelled',
 				context: {
 					student: student.fname + ' ' + student.lname,
 					instructor: instructor.fname + ' ' + instructor.lname,
