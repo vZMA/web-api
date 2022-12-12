@@ -278,6 +278,7 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 	try {
 		const sessions = await TrainingSession.find({
 			instructorCid: res.user.cid,
+			deleted: false,
 			submitted: false
 		}).populate('student', 'fname lname cid vis').populate('milestone', 'name code').lean();
 
