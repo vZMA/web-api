@@ -274,12 +274,15 @@ router.get('/request/:date', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', '
 	return res.json(res.stdRes);
 });
 
-router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
+router.get('/session/all', getUser, auth(['atm', 'datm', 'ta']), async (req, res) => {
 	try {
 		const sessions = await TrainingSession.find({
 			deleted: false,
 			submitted: false
-		}).populate('student', 'fname lname cid vis').populate('milestone', 'name code').lean();
+		}).populate('student', 'fname lname cid vis')
+			.populate('instructor', 'fname lname cid vis')
+			.populate('milestone', 'name code')
+			.lean();
 
 		res.stdRes.data = sessions;
 	} catch(e) {
