@@ -278,7 +278,8 @@ router.get('/session/all', getUser, auth(['atm', 'datm', 'ta']), async (req, res
 	try {
 		const sessions = await TrainingSession.find({
 			deleted: false,
-			submitted: false
+			submitted: false,
+			startTime: -1
 		}).populate('student', 'fname lname cid vis')
 			.populate('instructor', 'fname lname cid vis')
 			.populate('milestone', 'name code')
