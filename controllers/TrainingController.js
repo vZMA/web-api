@@ -290,6 +290,36 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 	return res.json(res.stdRes);
 });
 
+router.delete('/session/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async(req, res) =>
+{
+	try {
+		const request = await TrainingSession.findById(req.params.id);
+		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
+		const instructor = await User.findOne({cid: request.instructorCid}).select('fname lname email').lean();
+		request.delete();
+		
+		if (instructor.email != '') 
+			transporter.sendMail({
+				to: `${student.email}, ${instructor.email}`,
+				from: {
+					name: "Miami ARTCC",
+					address: 'no-reply@zmaartcc.net'
+				},
+				subject: 'Missed / Cancelled Training Session Deleted | Miami ARTCC',
+				template: 'sessionDeleted',
+				context: {
+					student: student.fname + ' ' + student.lname,
+					instructor: instructor.fname + ' ' + instructor.lname,
+					startTime: new Date(request.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
+					endTime: new Date(request.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})
+				}
+			});
+	} catch(e)
+		{
+			res.stdRes.ret_det = e;
+		}
+	return res.json(res.stdRes);
+});
 router.get('/session/:id', getUser, async(req, res) => {
 	try {
 		const isIns = ['ta', 'ins', 'mtr', 'atm', 'datm', 'wm'].some(r => res.user.roleCodes.includes(r));
