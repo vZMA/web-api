@@ -86,8 +86,8 @@ router.get('/top', async (req, res) => {
 			controllerTimes[session.cid].len += len;
 			positionTimes[posSimple].len += len;
 		}
-		res.stdRes.data.controllers = Object.values(controllerTimes).sort((a, b) => b.len - a.len).slice(0,5);
-		res.stdRes.data.positions = Object.values(positionTimes).sort((a, b) => b.len - a.len).slice(0,5);
+		res.stdRes.data.controllers = Object.values(controllerTimes).sort((a, b) => b.len - a.len).slice(0,10);
+		res.stdRes.data.positions = Object.values(positionTimes).sort((a, b) => b.len - a.len).slice(0,10);
 	} catch(e) {
 		req.app.Sentry.captureException(e);
 		res.stdRes.ret_det = e;
