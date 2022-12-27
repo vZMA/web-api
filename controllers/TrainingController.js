@@ -538,17 +538,17 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 
 		const Response = await vatusaApi.post(`https://api.vatusa.net/v2/user/${session.studentCid}/training/record/?apiKey=`+process.env.VATUSA_API_KEY, 
 					{
-					"instructor_id": session.instructorCid,
-                	"session_date": req.body.startTime.slice(0,10),
-					"position": req.body.position,
-					"duration": duration,
-					"movements": req.body.movements,
-					"score": req.body.progress,
-					"notes": req.body.studentNotes,
-			     	"ots_status": req.body.ots,
-				    "location": req.body.location,
-                    "is_cbt": false,
-                     "solo_granted": false
+					instructor_id: session.instructorCid,
+                	session_date: req.body.startTime.slice(0,10),
+					position: req.body.position,
+					duration: duration,
+					movements: req.body.movements,
+					score: req.body.progress,
+					notes: req.body.studentNotes,
+			     	ots_status: req.body.ots,
+				    location: req.body.location,
+                    is_cbt: false,
+                    solo_granted: false
 					});	
 		
 		console.log('Status: ' + Response.status);
