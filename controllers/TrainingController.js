@@ -536,7 +536,7 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 			params: { apiKey: process.env.VATUSA_API_KEY } }
 		);
 
-		const Response = await vatusaApi.post(`user/${session.studentCid}/training/record/?apiKey=`+process.env.VATUSA_API_KEY, 
+		const Response = await vatusaApi.post(`https://api.vatusa.net/v2/user/${session.studentCid}/training/record/?apiKey=`+process.env.VATUSA_API_KEY, 
 					{
 					"instructor_id": session.instructorCid,
                 	"session_date": req.body.startTime.slice(0,10),
