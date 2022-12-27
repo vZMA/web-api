@@ -533,7 +533,7 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 		const instructor = await User.findOne({cid: session.instructorCid}).select('fname lname').lean();
 		
 		const vatusaApi = axios.create({ baseUrl: 'https://api.vatsim.net/v2'}, {
-			params: { apiKey: import.meta.env.VITE_VATUSA_API_KEY } }
+			params: { apiKey: import.meta.env.VATUSA_API_KEY } }
 		);
 
 		const Response = await vatusaApi.post(`/user/${session.studentCid}/training/record/`, {
