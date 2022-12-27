@@ -539,7 +539,7 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 		const Response = await vatusaApi.post(`https://api.vatsim.net/v2/user/${session.studentCid}/training/record/?apiKey=`+process.env.VATUSA_API_KEY, 
 					{
 					"instructor_id": session.instructorCid,
-                	"session_date": req.body.startTime.slice(0,11),
+                	"session_date": req.body.startTime.slice(0,10),
 					"position": req.body.position,
 					"duration": duration,
 					"movements": req.body.movements,
