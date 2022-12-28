@@ -13,16 +13,16 @@ import dayjs from 'dayjs';
 
 router.get('/request/purge', getUser, async (req, res) => {
 	try {
-		const deletedTraining = await TrainingRequest.find({
-			deleted: true,
-		}).deleteMany();
+		const deletedTraining = await TrainingRequest.deleteMany({
+			deleted: true
+		});
 
-		const oldTraining = await TrainingRequest.find({
+		const oldTraining = await TrainingRequest.deleteMany()({
 			deleted: false,
 			endTime: {
 				$lt: new Date(new Date().toUTCString()) // end time of request is in the past
-			},
-		}).deleteMany();
+			}
+		});
 	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
