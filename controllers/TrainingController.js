@@ -295,6 +295,7 @@ router.get('/request/:date', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', '
 	return res.json(res.stdRes);
 });
 
+
 router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'wm']), async (req, res) => {
 	try {
 		const sessions = await TrainingSession.find({
@@ -326,6 +327,18 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 		res.stdRes.data = sessions;
 	} catch(e) {
 		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
+
+router.get('/session/purge', getUser, async (req, res) => {
+	try {
+		const deletedSessions = await TrainingRequest.deleteMany({
+			deleted: true
+		});
+	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
 
