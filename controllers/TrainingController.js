@@ -12,6 +12,8 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 
 router.get('/request/purge', async (req, res) => {
+	console.log("Purge requests requested");
+	
 	try {
 		const deletedTraining = await TrainingRequest.deleteMany({
 			deleted: true
@@ -27,6 +29,8 @@ router.get('/request/purge', async (req, res) => {
 		res.stdRes.ret_det = e;
 	}
 
+	console.log("Purge requests complete");
+	
 	return res.json(res.stdRes);
 });
 
@@ -334,6 +338,7 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 });
 
 router.get('/session/purge', async (req, res) => {
+	console.log("Purge Sessions Requested");
 	try {
 		const deletedSessions = await TrainingRequest.deleteMany({
 			deleted: true
@@ -341,7 +346,9 @@ router.get('/session/purge', async (req, res) => {
 	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
-
+	
+	console.log("Purge Sessions Complete");
+	
 	return res.json(res.stdRes);
 });
 
