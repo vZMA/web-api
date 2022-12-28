@@ -19,7 +19,7 @@ router.get('/request/purge', async (req, res) => {
 			deleted: true
 		});
 
-		const oldTraining = await TrainingRequest.deleteMany()({
+		const oldTraining = await TrainingRequest.deleteMany({
 			deleted: false,
 			endTime: {
 				$lt: new Date(new Date().toUTCString()) // end time of request is in the past
