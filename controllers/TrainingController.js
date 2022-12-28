@@ -11,7 +11,7 @@ import auth from '../middleware/auth.js';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
-router.get('/request/purge', getUser, async (req, res) => {
+router.get('/request/purge', async (req, res) => {
 	try {
 		const deletedTraining = await TrainingRequest.deleteMany({
 			deleted: true
@@ -333,7 +333,7 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 	return res.json(res.stdRes);
 });
 
-router.get('/session/purge', getUser, async (req, res) => {
+router.get('/session/purge', async (req, res) => {
 	try {
 		const deletedSessions = await TrainingRequest.deleteMany({
 			deleted: true
