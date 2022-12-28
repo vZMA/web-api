@@ -9,6 +9,25 @@ import User from '../models/User.js';
 import getUser from '../middleware/getUser.js';
 import auth from '../middleware/auth.js';
 
+router.get('/request/purge', getUser, async (req, res) => {
+	try {
+		const deletedTraining = await TrainingRequest.find({
+			deleted: true,
+		}).deleteMany();
+
+		const oldTraining = await TrainingRequest.find({
+			deleted: false,
+			endTime: {
+				$lt: new Date(new Date().toUTCString()) // end time of request is in the past
+			},
+		}).deleteMany();
+	} catch(e) {
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
+
 router.get('/request/upcoming', getUser, async (req, res) => {
 	try {
 		const upcoming = await TrainingRequest.find({
