@@ -8,6 +8,8 @@ import Notification from '../models/Notification.js';
 import User from '../models/User.js';
 import getUser from '../middleware/getUser.js';
 import auth from '../middleware/auth.js';
+import axios from 'axios';
+import dayjs from 'dayjs';
 
 router.get('/request/purge', getUser, async (req, res) => {
 	try {
@@ -533,9 +535,10 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 			insNotes: req.body.insNotes,
 			submitted: true
 		});*/
+		
 
 		const session = await TrainingSession.findByIdAndUpdate(req.params.id, {
-			sessiondate: req.body.startTime.slice(1,11),
+			sessiondate: dayjs(req.body.startTime).format("YYYY-MM-DD HH:mm"),
 			position: req.body.position,
 			progress: req.body.progress,
 			duration: duration,
@@ -548,6 +551,28 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 		});
 
 		const instructor = await User.findOne({cid: session.instructorCid}).select('fname lname').lean();
+		
+		const vatusaApi = axios.create({ baseUrl: 'https://api.vatusa.net/v2'}, {
+			params: { apiKey: process.env.VATUSA_API_KEY } }
+		);
+
+		const Response = await vatusaApi.post(`https://api.vatusa.net/v2/user/${session.studentCid}/training/record/?apikey=${process.env.VATUSA_API_KEY}` , 
+					{
+					instructor_id: session.instructorCid,
+                	session_date: dayjs(req.body.startTime).format("YYYY-MM-DD HH:mm"),
+					position: req.body.position,
+					duration: duration,
+					movements: req.body.movements,
+					score: req.body.progress,
+					notes: req.body.studentNotes,
+			     	ots_status: req.body.ots,
+				    location: req.body.location,
+                    is_cbt: false,
+                    solo_granted: false
+					});	
+		
+		console.log('Status: ' + Response.status);
+		console.log('Data returned: ' + Response.data);
 
 		await Notification.create({
 			recipient: session.studentCid,
