@@ -541,6 +541,7 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 		const delta = Math.abs(new Date(req.body.endTime) - new Date(req.body.startTime)) / 1000;
 		const hours = Math.floor(delta / 3600);
 		const minutes = Math.floor(delta / 60) % 60;
+		const duration = `${('00' + hours).slice(-2)}:${('00' + minutes).slice(-2)}`;
 
 		// update the database flag to submitted to prevent further updates.	
 		const session = await TrainingSession.findByIdAndUpdate(req.params.id, {
@@ -556,7 +557,6 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 			submitted: false
 		});
 
-		const duration = `${('00' + hours).slice(-2)}:${('00' + minutes).slice(-2)}`;
 		const instructor = await User.findOne({cid: session.instructorCid}).select('fname lname').lean();
 
 		// Send the training record to vatsim
