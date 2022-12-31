@@ -541,6 +541,21 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 		const delta = Math.abs(new Date(req.body.endTime) - new Date(req.body.startTime)) / 1000;
 		const hours = Math.floor(delta / 3600);
 		const minutes = Math.floor(delta / 60) % 60;
+
+		// update the database flag to submitted to prevent further updates.	
+		const session = await TrainingSession.findByIdAndUpdate(req.params.id, {
+			sessiondate: dayjs(req.body.startTime).format("YYYY-MM-DD HH:mm"),
+			position: req.body.position,
+			progress: req.body.progress,
+			duration: duration,
+			movements: req.body.movements,
+			location: req.body.location,
+			ots: req.body.ots,
+			studentNotes: req.body.studentNotes,
+			insNotes: req.body.insNotes,
+			submitted: false
+		});
+
 		const duration = `${('00' + hours).slice(-2)}:${('00' + minutes).slice(-2)}`;
 		const instructor = await User.findOne({cid: session.instructorCid}).select('fname lname').lean();
 
