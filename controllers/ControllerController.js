@@ -88,7 +88,7 @@ router.get('/', async ({res}) => {
 router.get(`/purge`, async (req, res) => {
 	console.log("Purge Users Requested");
 	try {
-		const deletedUsers = await Users.deleteMany({
+		const deletedUsers = await User.deleteMany({
 			member: false
 		});
 	} catch(e) {
