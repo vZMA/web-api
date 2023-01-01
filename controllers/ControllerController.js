@@ -85,6 +85,21 @@ router.get('/', async ({res}) => {
 	return res.json(res.stdRes);
 });
 
+router.get(`/purge`, async (req, res) => {
+	console.log("Purge Users Requested");
+	try {
+		const deletedUsers = await Users.deleteMany({
+			member: false
+		});
+	} catch(e) {
+		res.stdRes.ret_det = e;
+	}
+	
+	console.log("Purge Users Complete");
+	
+	return res.json(res.stdRes);
+});
+
 router.get('/staff', async (req, res) => {
 	try {
 		const users = await User.find().select('fname lname cid roleCodes').sort({
