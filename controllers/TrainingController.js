@@ -554,6 +554,7 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 			ots: req.body.ots,
 			studentNotes: req.body.studentNotes,
 			insNotes: req.body.insNotes,
+			solo_granted: req.body.solo_granted,
 			submitted: false
 		});
 
@@ -576,7 +577,7 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 			     	ots_status: req.body.ots,
 				    location: req.body.location,
                     is_cbt: false,
-                    solo_granted: false
+                    solo_granted: req.body.solo_granted
 					});	
 		
 		// If we get here, vatsim update was successful
@@ -593,6 +594,7 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 			ots: req.body.ots,
 			studentNotes: req.body.studentNotes,
 			insNotes: req.body.insNotes,
+			solo_granted: req.body.solo_granted,
 			submitted: true
 		});
 		
