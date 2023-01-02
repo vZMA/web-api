@@ -573,7 +573,8 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 					duration: duration,
 					movements: req.body.movements,
 					score: req.body.progress,
-					notes: req.body.studentNotes,
+					// small formatting adjustment to training notes to attempt to retain formatting at VATSIM's end
+					notes: req.body.studentNotes.replace(/\n/g, '<br>\n'),
 			     	ots_status: req.body.ots,
 				    location: req.body.location,
                     is_cbt: false,
