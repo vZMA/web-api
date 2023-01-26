@@ -664,7 +664,7 @@ router.post('/:cid', microAuth, async (req, res) => {
 				rating: ratings[req.body.rating],
 				vis: req.body.vis,
 				type: req.body.vis ? 'visitor' : 'member',
-				home: req.body.vis ? req.body.homeFacility : 'ZAB'
+				home: req.body.vis ? req.body.homeFacility : 'ZMA'
 			}
 		});
 
