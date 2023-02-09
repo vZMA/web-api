@@ -545,6 +545,7 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res)
 		user.member = true;
 		user.vis = true;
 		user.oi = userOi;
+		user.joinDate = new Date();		// A visitor should receive a join date when they are accepted to enable activity tracking
 
 		await user.save();
 
