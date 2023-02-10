@@ -176,6 +176,7 @@ router.get('/activity', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), async 
 		const users = await User.find({member: true}).select('fname lname cid email rating oi vis createdAt roleCodes certCodes joinDate').populate('certifications').lean({virtuals: true});
 		const activityReduced = {};
 		const trainingReduced = {};
+		const sessionsReduced = {};
 
 		(await ControllerHours.aggregate([
 			{$match: {timeStart: {$gt: chkDate}}},
@@ -195,6 +196,13 @@ router.get('/activity', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), async 
 				total: {$sum: 1}
 			}}
 		])).forEach(i => trainingReduced[i._id] = i.total);
+		(await TrainingSession.aggregate([
+			{$match: {startTime: {$gt: chkDate}}},
+			{$group: {
+				_id: "$studentCid",
+				total: {$sum: 1}
+			}}
+		])).forEach(i => sessionsReduced[i._id] = i.total);		
 		const userData = {};
 		for(let user of users) {
 			let fiftyTime = await req.app.redis.get(`FIFTY:${user.cid}`);
@@ -206,11 +214,13 @@ router.get('/activity', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), async 
 			
 			const totalTime = Math.round(activityReduced[user.cid] / 1000) || 0;
 			const totalRequests = trainingReduced[user.cid] || 0;
+			const totalSessions = sessionsReduced[user.cid] || 0;
 
 			userData[user.cid] = {
 				...user,
 				totalTime,
 				totalRequests,
+				totalSessions,
 				fiftyTime: Math.round(fiftyTime),
 				tooLow: totalTime < 10800 && (user.joinDate ?? user.createdAt) < chkDate,
 				protected: user.isStaff || [835147,1236623,1183112,1035677,1104849,1100092,1090280,1278153,1350061,1305373].includes(user.cid)
