@@ -16,19 +16,22 @@ router.get('/request/purge', async (req, res) => {
 	
 	try {
 		const deletedTraining = await TrainingRequest.deleteMany({
-			deleted: true
-		});
+			deleted: true,
+			endTime: {
+				$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
+				}
+			});
 
 		const oldTraining = await TrainingRequest.deleteMany({
 			deleted: false,
 			endTime: {
-				$lt: new Date(new Date().toUTCString()) // end time of request is in the past
+				$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
 			}
 		});
 	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
-
+	
 	console.log("Purge requests complete");
 	
 	return res.json(res.stdRes);
@@ -341,7 +344,10 @@ router.get('/session/purge', async (req, res) => {
 	console.log("Purge Sessions Requested");
 	try {
 		const deletedSessions = await TrainingRequest.deleteMany({
-			deleted: true
+			deleted: true,
+			endTime: {
+				$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
+		}
 		});
 	} catch(e) {
 		res.stdRes.ret_det = e;
