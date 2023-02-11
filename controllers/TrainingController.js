@@ -22,12 +22,15 @@ router.get('/request/purge', async (req, res) => {
 				}
 			});
 
-		const oldTraining = await TrainingRequest.deleteMany({
-			deleted: false,
+		const oldTraining = await TrainingRequest.updateMany(
+			{
 			endTime: {
-				$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
+				$lt: new Date(new Date(Date.now()).toUTCString()) // end time of request is in the past, set the record to soft delete to remove it from the users display
+				}
+			}, 
+			{ $set: {deleted: true} 
 			}
-		});
+		);
 	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
