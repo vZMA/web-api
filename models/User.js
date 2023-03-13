@@ -24,7 +24,7 @@ const userSchema = new m.Schema({
 	avatar: String,
 	joinDate: Date,
 	prefName: Boolean,
-	userTimezone: Number,
+	userTimezone: Number, 
 	googleinfo: {
 			clientId: String,	
 	},
