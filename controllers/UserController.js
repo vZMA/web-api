@@ -142,6 +142,7 @@ router.post("/login", oAuth, async (req, res) => {
         broadcast: false,
         member: false,
         vis: false,
+        userTimezone: -300, // Set the default timezone offset to EST (-5 Hours)
       });
     } else {
       if (!user.email) {
