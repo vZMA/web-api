@@ -419,9 +419,9 @@ router.delete("/notifications", getUser, async (req, res) => {
 
 router.put("/profile", getUser, async (req, res) => {
   try {
-    const { bio } = req.body.bio;
-    const { userTimezone } = req.body.userTimezone;
-    const { clientId } = req.body.googleinfo.clientId;
+    const { bio } = req.bio;
+    const { userTimezone } = req.userTimezone;
+    const { clientId } = req.googleinfo.clientId;
 
 console.log(req);
 console.log("bio:" + bio);
