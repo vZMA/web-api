@@ -431,7 +431,7 @@ console.log("clientId: " + req.body.GoogleClientId);
       {
         bio: req.body.bio,
         userTimezone: req.body.userTimezone,
-        GoogleClientId: req.body.GoogleClientId }
+        GoogleClientId: req.body.GoogleClientId 
       }
     );
 
