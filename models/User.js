@@ -25,7 +25,7 @@ const userSchema = new m.Schema({
 	joinDate: Date,
 	prefName: Boolean,
 	userTimezone: String, 
-	GoogleClientId: String,	
+	GoogleClientId: String,	 
 	discordInfo: {
 		clientId: String,
 		accessToken: String,
