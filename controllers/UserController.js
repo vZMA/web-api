@@ -419,22 +419,19 @@ router.delete("/notifications", getUser, async (req, res) => {
 
 router.put("/profile", getUser, async (req, res) => {
   try {
-    const { bio } = req.body.bio;
-    const { userTimezone } = req.body.userTimezone;
-    const { clientId } = req.body.googleinfo.clientId;
-
+    
 console.log(req);
-console.log("bio:" + bio);
-console.log("userTimezone:" + userTimezone);
-console.log("clientId: " + clientId);
+console.log("bio:" + req.body.bio);
+console.log("userTimezone:" + req.body.userTimezone);
+console.log("clientId: " + req.body.clientId);
 
 
     await User.findOneAndUpdate(
       { cid: res.user.cid },
       {
-        bio: bio,
-        userTimezone: userTimezone,
-        googleinfo: { clientId: clientId }
+        bio: req.body.bio,
+        userTimezone: req.body.userTimezone,
+        googleinfo: { clientId: req.body.clientId }
       }
     );
 
