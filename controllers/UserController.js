@@ -423,6 +423,7 @@ router.put("/profile", getUser, async (req, res) => {
     const { userTimezone } = req.body.userTimezone;
     const { clientId } = req.body.googleinfo.clientId;
 
+console.log(req);
 console.log("bio:" + bio);
 console.log("userTimezone:" + userTimezone);
 console.log("clientId: " + clientId);
