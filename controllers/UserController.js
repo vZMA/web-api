@@ -423,12 +423,17 @@ router.put("/profile", getUser, async (req, res) => {
     const { userTimezone } = req.body.userTimezone;
     const { clientId } = req.body.googleinfo.clientId;
 
+console.log("bio:" + bio);
+console.log("userTimezone:" + userTimezone);
+console.log("clientId: " + clientId);
+
+
     await User.findOneAndUpdate(
       { cid: res.user.cid },
       {
-        bio,
-        userTimezone,
-        googleinfo: { clientId }
+        bio: bio,
+        userTimezone: userTimezone,
+        googleinfo: { clientId: clientId }
       }
     );
 
