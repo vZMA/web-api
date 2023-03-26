@@ -129,7 +129,7 @@ router.post('/request/new', getUser, async (req, res) => {
 			+ 'The following notes were included in the request: \n\n' + req.body.remarks;
 		const emailAddress = 'tommycoombs@gmail.com';
 
-		createGoogleCalendarEvent(emailAddress, eventTitle, eventDescription, req.body.statTime, req.body.endTime);
+		createGoogleCalendarEvent(student.GoogleCalendarToken, eventTitle, eventDescription, req.body.statTime, req.body.endTime);
 
 
 		// ==== EMAILS ARE DISABLED PER TA REQUEST 12/8/22 ====
