@@ -10,6 +10,7 @@ import getUser from '../middleware/getUser.js';
 import auth from '../middleware/auth.js';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import createGoogleCalendarEvent from '../middleware/gcalendar.js';
 
 router.get('/request/purge', async (req, res) => {
 	console.log("Purge requests requested");
@@ -121,6 +122,15 @@ router.post('/request/new', getUser, async (req, res) => {
 
 		const student = await User.findOne({cid: res.user.cid}).select('fname lname').lean();
 		const milestone = await TrainingMilestone.findOne({code: req.body.milestone}).lean();
+		
+		// create a google calendar event for the training session, using the google id of the student and instructor
+		const eventTitle = req.body.milestone + '- Scheduled';
+		const eventDescription = student.fname + ' ' + student.lname + ' has scheduled a ' + req.body.milstone + '. \n\n'
+			+ 'The following notes were included in the request: \n\n' + req.body.remarks;
+		const emailAddress = 'tommycoombs@gmail.com';
+
+		createGoogleCalendarEvent(emailAddress, eventTitle, eventDescription, req.body.statTime, req.body.endTime);
+
 
 		// ==== EMAILS ARE DISABLED PER TA REQUEST 12/8/22 ====
 		// transporter.sendMail({
