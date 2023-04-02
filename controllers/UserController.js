@@ -420,15 +420,7 @@ router.delete("/notifications", getUser, async (req, res) => {
 router.put("/profile", getUser, async (req, res) => {
   try {
     
-console.log(req);
-console.log("bio:" + req.body.bio);
-console.log("userTimezone:" + req.body.userTimezone);
-console.log("clientId: " + req.body.GoogleClientId);
-console.log("AccessToken: " + req.body.googleApiAccessToken);
-console.log("RefreshToken: " + req.body.googleApiRefreshToken);
-
-
-    await User.findOneAndUpdate(
+  await User.findOneAndUpdate(
       { cid: res.user.cid },
       {
         bio: req.body.bio,

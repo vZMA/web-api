@@ -21,7 +21,7 @@ router.get('/', async ({res}) => {
 		const home = await User.find({vis: false, cid: { "$nin": [995625] }}).select('-email -idsToken -discordInfo').sort({
 			rating: 'desc',
 			lname: 'asc',
-			
+
 			fname: 'asc'
 		}).populate({
 			path: 'certifications',
@@ -87,7 +87,6 @@ router.get('/', async ({res}) => {
 });
 
 router.get(`/purge`, async (req, res) => {
-	console.log("Purge Users Requested");
 	try {
 		const deletedUsers = await User.deleteMany({
 			member: false
@@ -95,8 +94,6 @@ router.get(`/purge`, async (req, res) => {
 	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
-	
-	console.log("Purge Users Complete");
 	
 	return res.json(res.stdRes);
 });

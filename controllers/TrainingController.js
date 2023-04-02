@@ -13,8 +13,6 @@ import dayjs from 'dayjs';
 import createGoogleCalendarEvent from '../middleware/gcalendar.js';
 
 router.get('/request/purge', async (req, res) => {
-	console.log("Purge requests requested");
-	
 	try {
 		const deletedTraining = await TrainingRequest.deleteMany({
 			deleted: true,
@@ -35,8 +33,6 @@ router.get('/request/purge', async (req, res) => {
 	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
-	
-	console.log("Purge requests complete");
 	
 	return res.json(res.stdRes);
 });
@@ -253,8 +249,6 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 
 router.delete('/request/:id', getUser, async (req, res) => {
 	try {
-		console.log(req.params.id);
-
 		const request = await TrainingRequest.findById(req.params.id);
 		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
 		const instructor = await User.findOne({cid: request.instructorCid}).select('fname lname email').lean();
@@ -354,7 +348,6 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 });
 
 router.get('/session/purge', async (req, res) => {
-	console.log("Purge Sessions Requested");
 	try {
 		const deletedSessions = await TrainingRequest.deleteMany({
 			deleted: true,
@@ -365,8 +358,6 @@ router.get('/session/purge', async (req, res) => {
 	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
-	
-	console.log("Purge Sessions Complete");
 	
 	return res.json(res.stdRes);
 });
@@ -600,9 +591,6 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
                     is_cbt: false,
                     solo_granted: req.body.solo_granted
 					});	
-		
-		// If we get here, vatsim update was successful
-		console.log('VATSIM API Training note submitted - status: ' + Response.status);
 		
 		// update the database flag to submitted to prevent further updates.	
 		const sessionfinalize = await TrainingSession.findByIdAndUpdate(req.params.id, {
