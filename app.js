@@ -95,8 +95,8 @@ app.use((req, res, next) => {
 	next();
 });
 
-const googleClientId = process.env.GOOGLE_AUTH_CLIENT_ID;
-const googleClientSecret = process.env.GOOGLE_AUTH_CLIENT_SECRET;
+app.googleClientId = process.env.GOOGLE_AUTH_CLIENT_ID;
+app.googleClientSecret = process.env.GOOGLE_AUTH_CLIENT_SECRET;
 
 app.s3 = new aws.S3({
 	endpoint: new aws.Endpoint('nyc3.digitaloceanspaces.com'),

@@ -6,12 +6,12 @@ import Config from '../models/Config.js';
 
 router.get('/googleinfo', async (req, res) => {
 	
-	console.log(googleClientId);
-	console.log(googleClientSecret);
+	console.log(app.googleClientId);
+	console.log(app.googleClientSecret);
 
 	res.stdRes.data = {
-		clientId: googleClientId,
-		clientSecret: googleClientSecret
+		clientId: app.googleClientId,
+		clientSecret: app.googleClientSecret
 	}
 
 	return res.json(res.stdRes);
