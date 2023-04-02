@@ -15,8 +15,8 @@ router.get('/googleinfo', async (req, res) => {
 	console.log(googleClientSecret);
 
 	res.stdRes.data = {
-		clientId: app.googleClientId,
-		clientSecret: app.googleClientSecret
+		clientId: googleClientId,
+		clientSecret: googleClientSecret
 	}
 
 	return res.json(res.stdRes);
