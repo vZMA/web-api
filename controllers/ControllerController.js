@@ -21,6 +21,7 @@ router.get('/', async ({res}) => {
 		const home = await User.find({vis: false, cid: { "$nin": [995625] }}).select('-email -idsToken -discordInfo').sort({
 			rating: 'desc',
 			lname: 'asc',
+			
 			fname: 'asc'
 		}).populate({
 			path: 'certifications',
