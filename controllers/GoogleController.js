@@ -1,5 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import getGoogleClientInfo from '../helpers/googleInfoHelper.js';
+import getGoogleClientSecret from '../helpers/googleInfoHelper.js';
 
 const router = express.Router();
 
