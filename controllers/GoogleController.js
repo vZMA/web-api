@@ -1,6 +1,4 @@
 import express from 'express';
-import getGoogleClientInfo from '../helpers/googleInfoHelper.js';
-import getGoogleClientSecret from '../helpers/googleInfoHelper.js';
 
 const router = express.Router();
 
