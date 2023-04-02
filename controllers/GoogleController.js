@@ -5,7 +5,7 @@ const router = express.Router();
 import User from '../models/User.js';
 import Config from '../models/Config.js';
 
-router.get('/googleinfo', microAuth, async (req, res) => {
+router.get('/googleinfo', async (req, res) => {
 	
 	const clientId = process.env.GOOGLE_AUTH_CLIENT_ID;
 	const clientSecret = process.env.GOOGLE_AUTH_CLIENT_SECRET;
@@ -16,7 +16,7 @@ router.get('/googleinfo', microAuth, async (req, res) => {
 	}
 
 	console.log(res);
-	
+
 	return res.json(res.stdRes);
 });
 
