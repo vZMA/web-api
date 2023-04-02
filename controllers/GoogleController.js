@@ -10,8 +10,8 @@ router.get('/googleinfo', async (req, res) => {
 	const clientSecret = process.env.GOOGLE_AUTH_CLIENT_SECRET;
 	
 	console.log(clientId);
-	console.log(clinetSecret);
-	
+	console.log(clientSecret);
+
 	res.stdRes.data = {
 		ClientId: clientId,
 		ClientSecret: clientSecret
