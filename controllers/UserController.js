@@ -424,6 +424,8 @@ console.log(req);
 console.log("bio:" + req.body.bio);
 console.log("userTimezone:" + req.body.userTimezone);
 console.log("clientId: " + req.body.GoogleClientId);
+console.log("AccessToken: " + req.body.googleApiAccessToken);
+console.log("RefreshToken: " + req.body.googleApiRefreshToken);
 
 
     await User.findOneAndUpdate(
