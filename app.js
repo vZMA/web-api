@@ -120,6 +120,7 @@ app.use('/feedback', FeedbackController);
 app.use('/ids', IdsController);
 app.use('/training', TrainingController);
 app.use('/discord', DiscordController);
+app.use('/googlr', GoogleController);
 app.use('/stats', StatsController);
 
 if(process.env.NODE_ENV === 'production') app.use(Sentry.Handlers.errorHandler());
