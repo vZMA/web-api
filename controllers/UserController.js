@@ -432,7 +432,8 @@ console.log("clientId: " + req.body.GoogleClientId);
         bio: req.body.bio,
         userTimezone: req.body.userTimezone,
         GoogleClientId: req.body.GoogleClientId,
-        GoogleCalendarToken: req.body.GoogleCalendarToken 
+        googleApiAccessToken: req.body.googleApiAccessToken,
+        googleApiRefreshToken: req.body.googleApiRefreshToken
       }
     );
 
