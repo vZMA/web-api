@@ -9,8 +9,8 @@ import Config from '../models/Config.js';
 router.get('/googleinfo', async (req, res) => {
 	dotenv.config();
 
-	const googleClientId = process.env.GOOGLE_AUTH_CLIENT_ID;
-	const googleClientSecret = process.env.GOOGLE_AUTH_CLIENT_SECRET;
+	const googleClientId = getGoogleClientInfo();
+	const googleClientSecret = getGoogleClientSecret();
 	console.log(googleClientId);
 	console.log(googleClientSecret);
 
