@@ -20,6 +20,7 @@ import FeedbackController from './controllers/FeedbackController.js';
 import IdsController from './controllers/IdsController.js';
 import TrainingController from './controllers/TrainingController.js';
 import DiscordController from './controllers/DiscordController.js';
+import GoogleController from './controllsers/GoogleController.js';
 import StatsController from './controllers/StatsController.js';
 
 // Global Dossier Model
@@ -120,7 +121,7 @@ app.use('/feedback', FeedbackController);
 app.use('/ids', IdsController);
 app.use('/training', TrainingController);
 app.use('/discord', DiscordController);
-app.use('/googlr', GoogleController);
+app.use('/google', GoogleController);
 app.use('/stats', StatsController);
 
 if(process.env.NODE_ENV === 'production') app.use(Sentry.Handlers.errorHandler());
