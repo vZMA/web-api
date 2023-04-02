@@ -27,7 +27,7 @@ import StatsController from './controllers/StatsController.js';
 import Dossier from './models/Dossier.js';
 
 env.config();
-
+console.log(process.env);
 // Setup Express
 const app = express();
 
