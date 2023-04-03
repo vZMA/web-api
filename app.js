@@ -103,8 +103,8 @@ app.s3 = new aws.S3({
 
 app.dossier = Dossier;
 
-console.log("google client: "+ process.env.GOOGLE_AUTH_CLIENT_ID);
-console.log("google client SECRET: "+ process.env.GOOGLE_AUTH_CLIENT_SECRET);
+console.log("google client: "+ process.env.G_AUTH_ID);
+console.log("google client SECRET: "+ process.env.G_AUTH_SECRET);
 
 // Connect to MongoDB
 mongoose.set('toJSON', {virtuals: true});
