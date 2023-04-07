@@ -119,7 +119,7 @@ router.post("/login", oAuth, async (req, res) => {
       ratingId: vatsimUserData.vatsim.rating.id,
     };
 
-    // If the user did not authorize all requested data from the AUTH login, we may have null parameters
+        // If the user did not authorize all requested data from the AUTH login, we may have null parameters
     // If that is the case throw a BadRequest exception.
     if (Object.values(userData).some((x) => x == null || x == "")) {
       throw {
@@ -154,7 +154,7 @@ router.post("/login", oAuth, async (req, res) => {
       }
       user.rating = userData.ratingId;
     }
-
+   
     if (user.oi && !user.avatar) {
       const { data } = await axios.get(
         `https://ui-avatars.com/api/?name=${user.oi}&size=256&background=122049&color=ffffff`,
@@ -226,6 +226,71 @@ router.get("/sessions", getUser, async (req, res) => {
   }
 
   return res.json(res.stdRes);
+});
+
+router.get("/google/uri", getUser, async (req, res) => {
+  const googleClient = process.env.G_AUTH_ID;
+  const googleSecret = process.env.G_AUTH_SECRET;
+
+  const redirectURI = 'https://zmaartcc.net/dash/profile';
+  const scopes = 'openid email profile https://www.googleapis.com/auth/calendar.events';
+
+  // Build the authorization URL
+  res.stdRes.data = {
+    redirectUri: `https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=${googleClient}&redirect_uri=${redirectURI}&scope=${scopes}&access_type=offline`
+  }
+
+  return res.json(res.stdRes);
+});
+
+router.post("/google/token/", getUser, async (req, res) => {
+  const googleClient = process.env.G_AUTH_ID;
+  const googleSecret = process.env.G_AUTH_SECRET;
+  const code=req.body.code;
+  const cid=req.body.cid;
+  let access_token = '';
+  let refresh_token = '';
+
+  //console.log(code);
+  try {
+			// exchange code for Tokens and store tokens.
+			const tokenEndpoint = 'https://oauth2.googleapis.com/token';
+			const data = new URLSearchParams();
+			data.append('client_id', googleClient);
+			data.append('client_secret', googleSecret);
+			data.append('code', code);
+			data.append('grant_type', 'authorization_code');
+			data.append('redirect_uri', 'https://zmaartcc.net/dash/profile');
+
+			// Send the POST request to exchange authorization code for tokens
+ 			fetch(tokenEndpoint, {
+				method: 'POST',
+				body: data,
+			  })
+        .then(response => response.json())
+			    .then(data => {
+        //update the profile with the access_token and refresh_token
+          access_token = data.access_token;
+          refresh_token = data.refresh_token; 
+              
+          User.findOneAndUpdate(
+            { cid: cid },
+            {
+              googleApiAccessToken: access_token,
+              googleApiRefreshToken: refresh_token
+            }).then(req.app.dossier.create({
+              by: res.user.cid,
+              affected: -1,
+              action: `%b authorized google calendar access.`
+            }))
+          })
+      }
+    catch (e) {
+      req.app.Sentry.captureException(e);
+      res.stdRes.ret_det = e;
+    }
+
+    return res.json(res.stdRes);
 });
 
 router.get("/discord", getUser, async (req, res) => {
@@ -425,11 +490,12 @@ router.put("/profile", getUser, async (req, res) => {
       {
         bio: req.body.bio,
         userTimezone: req.body.userTimezone,
-        GoogleClientId: req.body.GoogleClientId,
-        googleApiAccessToken: req.body.googleApiAccessToken,
-        googleApiRefreshToken: req.body.googleApiRefreshToken
+        googleEmail: req.body.googleEmail,
+        googleCalendarId: req.body.googleCalendarId
       }
     );
+
+console.log(req.body);
 
     await req.app.dossier.create({
       by: res.user.cid,

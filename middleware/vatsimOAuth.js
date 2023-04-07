@@ -6,6 +6,7 @@ export default function (req, res, next) {
   const code = req.body.code;
 
   const redirectUrl = "https://zmaartcc.net/login/verify";
+  //const redirectUrl = "http://dev.zmaartcc.net/login/verify";
 
   const vatsimOauthTokenEndpoint =
     "https://auth.vatsim.net/oauth/token";

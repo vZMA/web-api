@@ -15,6 +15,8 @@ const trainingSessionSchema = new m.Schema({
 	ots: Number,
 	studentNotes: String,
 	insNotes: String,
+	insGoogleEvent: String,
+	stuGoogleEvent: String,
 	submitted: Boolean,
 	synced: Boolean
 }, {
