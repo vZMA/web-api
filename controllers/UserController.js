@@ -272,7 +272,8 @@ router.post("/google/token/", getUser, async (req, res) => {
         //update the profile with the access_token and refresh_token
           access_token = data.access_token;
           refresh_token = data.refresh_token; 
-              
+              console.log(access_token);
+              console.log(refresh_token);
           User.findOneAndUpdate(
             { cid: cid },
             {
