@@ -47,7 +47,7 @@ if(process.env.NODE_ENV === 'production') {
 } else {
 	app.Sentry = {
 		captureException(e) {
-			console.log(e);
+			 console.log(e);
 		},
 		captureMessage(m) {
 			console.log(m);
@@ -127,5 +127,5 @@ app.use('/stats', StatsController);
 if(process.env.NODE_ENV === 'production') app.use(Sentry.Handlers.errorHandler());
 
 app.listen('3000', () =>{
-	console.log('Listening on port 3000');
+	 console.log('Listening on port 3000');
 });
