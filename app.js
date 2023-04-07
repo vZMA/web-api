@@ -26,7 +26,7 @@ import StatsController from './controllers/StatsController.js';
 import Dossier from './models/Dossier.js';
 
 env.config();
-console.log(process.env);
+
 // Setup Express
 const app = express();
 
@@ -101,9 +101,6 @@ app.s3 = new aws.S3({
 });
 
 app.dossier = Dossier;
-
-console.log("google client: "+ process.env.G_AUTH_ID);
-console.log("google client SECRET: "+ process.env.G_AUTH_SECRET);
 
 // Connect to MongoDB
 mongoose.set('toJSON', {virtuals: true});

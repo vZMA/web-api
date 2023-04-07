@@ -352,7 +352,6 @@ router.put('/:slug', getUser, auth(['atm', 'datm', 'ec', 'wm']), upload.single('
 					if(event.positions[i].pos === position.pos) {
 
 						if(event.positions[i].takenBy) {
-							console.log(event.positions[i].takenBy);
 							const j = newPositions.indexOf(position);
 							newPositions[j].takenBy = event.positions[i].takenBy;
 						}

@@ -663,10 +663,10 @@ router.put('/session/google/cal-create', getUser, async( req, res ) => {
 		})
 		.then(response => response.json())
 		.then(data => {
-			console.log('Event created: '+data.id);
+			// 'Event created: ' data.id holds the event id
 		})
 		.catch(error => {
-			console.error(`Error creating event: ${error}`);
+			// Error creating event: ${error}
 		});
 
 		res.stdRes.data = {
@@ -712,10 +712,10 @@ router.put('/session/google/cal-delete', getUser, async( req, res ) => {
 		})
 		.then(response => response.json())
 		.then(data => {
-			console.log('Event deleted: '+eventId);
+			//Event deleted: eventId
 		})
 		.catch(error => {
-			console.error(`Error creating event: ${error}`);
+			//console.error(`Error creating event: ${error}`);
 		});
 
 		res.stdRes.data = {

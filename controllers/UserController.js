@@ -251,7 +251,6 @@ router.post("/google/token/", getUser, async (req, res) => {
   let access_token = '';
   let refresh_token = '';
 
-  //console.log(code);
   try {
 			// exchange code for Tokens and store tokens.
 			const tokenEndpoint = 'https://oauth2.googleapis.com/token';
@@ -272,8 +271,7 @@ router.post("/google/token/", getUser, async (req, res) => {
         //update the profile with the access_token and refresh_token
           access_token = data.access_token;
           refresh_token = data.refresh_token; 
-              console.log(access_token);
-              console.log(refresh_token);
+              
           User.findOneAndUpdate(
             { cid: cid },
             {
@@ -495,8 +493,6 @@ router.put("/profile", getUser, async (req, res) => {
         googleCalendarId: req.body.googleCalendarId
       }
     );
-
-console.log(req.body);
 
     await req.app.dossier.create({
       by: res.user.cid,
