@@ -282,10 +282,14 @@ router.get('/request/:date', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', '
 		const dayAfter = new Date(d);
 		dayAfter.setUTCDate(dayAfter.getUTCDate() + 1);
 
+		const timezoneOffset = req.query.timezoneOffset ? parseInt(req.query.timezoneOffset) : new Date().getTimezoneOffset();
+		
 		const requests = await TrainingRequest.find({
 			startTime: {
-				$gte: (d.toISOString()),
-				$lt: (dayAfter.toISOString())
+				$gte: new Date(d.getTime() + timezoneOffset * 60 * 1000).toISOString(),
+				$lt: new Date(dayAfter.getTime() + timezoneOffset * 60 * 1000).toISOString()
+				//$gte: (d.toISOString()),
+				//$lt: (dayAfter.toISOString())
 			},
 			instructorCid: null,
 			deleted: false
