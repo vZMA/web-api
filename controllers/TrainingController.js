@@ -293,7 +293,9 @@ router.get('/request/:date', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', '
 			},
 			instructorCid: null,
 			deleted: false
-		}).populate('student', 'studentCid fname lname rating vis googleApiRefreshToken googleCalendarId remarks').populate('milestone', 'name code').lean();
+		}).populate('student', 'studentCid fname lname rating vis googleApiRefreshToken googleCalendarId remarks')
+		.populate('milestone', 'name code')
+		.sort({startTime: 1}).lean();
 
 		res.stdRes.data = requests;
 	} catch(e) {
