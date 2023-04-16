@@ -1,89 +1,81 @@
 [{
-	"code": "GC1",
-	"name": "Basic ATC and Delta Introduction",
-	"rating": "1"
+  "certCode": "gnd",
+  "code": "TRN",
+  "name": "Training",
+  "rating": "10"
 },{
-	"code": "GC2",
-	"name": "Class C Ground Operations",
-	"rating": "1"
+  "certCode": "miactr",
+  "code": "GRP",
+  "name": "GRP Comp Check",
+  "rating": "1"
 },{
-	"code": "GC3",
-	"name": "Class B Ground Operations",
-	"rating": "2"
+  "certCode": "mots",
+  "code": "MOTS",
+  "name": "Major Over-The-Shoulder Evaluation",
+  "rating": "10"
 },{
-	"code": "GC4",
-	"name": "KPHX Ground Checkout",
-	"rating": "2"
+  "certCode": "rots",
+  "code": "ROTS",
+  "name": "Rating Advancement Over-The-Shoulder Evaluation",
+  "rating": "10"
 },{
-	"code": "LC1",
-	"name": "Basic Class D/C Tower Operations",
-	"rating": "2"
+  "certCode": "gnd",
+  "code": "S1",
+  "name": "S1 Training",
+  "rating": "1"
 },{
-	"code": "LC2",
-	"name": "Advanced Class D/C Tower Operations",
-	"rating": "2"
+  "certCode": "miagnd",
+  "code": "MS1",
+  "name": "Major S1 Training",
+  "rating": "2"
 },{
-	"code": "LC3",
-	"name": "Class C Tower Live Monitoring",
-	"rating": "2"
+  "certCode": "twr",
+  "code": "S2",
+  "name": "S2 Training",
+  "rating": "2"
 },{
-	"code": "LC4",
-	"name": "S2 Tower OTS",
-	"rating": "2"
+  "certCode": "miatwr",
+  "code": "MS2",
+  "name": "Major S2 Training",
+  "rating": "3"
 },{
-	"code": "LC5",
-	"name": "Class B Tower Operations",
-	"rating": "3"
+  "certCode": "app",
+  "code": "S3",
+  "name": "S3 Training",
+  "rating": "3"
 },{
-	"code": "LC6",
-	"name": "KPHX Tower OTS",
-	"rating": "3"
+  "certCode": "miaapp",
+  "code": "MS3",
+  "name": "Major S3 Training",
+  "rating": "4"
 },{
-	"code": "AD1",
-	"name": "Basic Class C TRACON Operations",
-	"rating": "3"
+ "certCode": "zma",
+  "code": "C1",
+  "name": "C1 Training",
+  "rating": "4"
 },{
-	"code": "AD2",
-	"name": "Advanced Class C TRACON Operations",
-	"rating": "3"
+  "certCode": "zmo",
+  "code": "ZMO",
+  "name": "Oceanic Training",
+  "rating": "5"
 },{
-	"code": "AD3",
-	"name": "Class C TRACON Live Monitoring",
-	"rating": "3"
+  "certCode": "vismiatwr",
+  "code": "MS2",
+  "name": "Major S2 Training",
+  "rating": "3"
 },{
-	"code": "AD4",
-	"name": "S3 Approach OTS",
-	"rating": "3"
+  "certCode": "vismiaapp",
+  "code": "MS3",
+  "name": "Major S3 Training",
+  "rating": "4"
 },{
-	"code": "AD5",
-	"name": "P50 Departure Procedures",
-	"rating": "4"
+  "certCode": "viszma",
+  "code": "ZMO",
+  "name": "Oceanic Training",
+  "rating": "5"
 },{
-	"code": "AD6",
-	"name": "P50 Arrival Procedures",
-	"rating": "4"
-},{
-	"code": "AD7",
-	"name": "P50 Satellite Procedures",
-	"rating": "4"
-},{
-	"code": "AD8",
-	"name": "P50 TRACON Live Monitoring",
-	"rating": "4"
-},{
-	"code": "AD10",
-	"name": "P50 TRACON OTS",
-	"rating": "4"
-},{
-	"code": "EN1",
-	"name": "Albuquerque Center Live Monitoring",
-	"rating": "4"
-},{
-	"code": "EN3",
-	"name": "C1 Center OTS",
-	"rating": "C1"
-},{
-	"code": "EN3",
-	"name": "C1 Center OTS",
-	"rating": "4"
-  }]
+  "certCode": "ots",
+  "code": "OTS",
+  "name": "Over the Shoulder evaluation",
+  "rating": "1"
+}]
