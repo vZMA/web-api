@@ -16,7 +16,7 @@ staffNotesSchema.plugin(softDelete, {
 	deletedAt: true
 });
 
-staffNotesSchema.virtual('author', {
+staffNotesSchema.virtual('author', { 
 	ref: 'User',
 	localField: 'authorCid',
 	foreignField: 'cid',
