@@ -6,7 +6,7 @@
   "facility": "gnd"
 },{
   "name": "Major Ground",
-  "code": "mia_gnd",
+  "code": "miagnd",
   "order": 2,
   "class": "major",
   "facility": "gnd"
@@ -18,7 +18,7 @@
   "facility": "twr"
 },{
   "name": "Major Tower",
-  "code": "mia_twr",
+  "code": "miatwr",
   "order": 4,
   "class": "major",
   "facility": "twr"
@@ -30,7 +30,7 @@
   "facility": "app"
 },{
   "name": "Major Approach",
-  "code": "mia_app",
+  "code": "miaapp",
   "order": 6,
   "class": "major",
   "facility": "app"
@@ -41,9 +41,81 @@
   "class": "center",
   "facility": "ctr"
 },{
-  "name": "Oceanic Center",
+  "name": "Miami Oceanic",
   "code": "zmo",
-  "order": 7,
+  "order": 8,
   "class": "center",
-  "facility": "ctr"}
-]
+  "facility": "ctr"
+},{
+  "name": "Minor Ground (Solo)",
+  "code": "gnds",
+  "order": 9,
+  "class": "solon",
+  "facility": "gnd"
+},{
+  "name": "Major Ground (Solo)",
+  "code": "miagnds",
+  "order": 10,
+  "class": "solom",
+  "facility": "gnd"
+},{
+  "name": "Minor Tower (Solo)",
+  "code": "twrs",
+  "order": 11,
+  "class": "solon",
+  "facility": "twr"
+},{
+  "name": "Major Tower (Solo)",
+  "code": "miatwrs",
+  "order": 12,
+  "class": "solom",
+  "facility": "twr"
+},{
+  "name": "Minor Approach (Solo)",
+  "code": "apps",
+  "order": 13,
+  "class": "solon",
+  "facility": "app"
+},{
+  "name": "Major Approach (Solo)",
+  "code": "miaapps",
+  "order": 14,
+  "class": "solom",
+  "facility": "app"
+},{
+  "name": "Miami Center (Solo)",
+  "code": "miazmas",
+  "order": 15,
+  "class": "solom",
+  "facility": "ctr"
+},{
+  "name": "Miami Oceanic (Solo)",
+  "code": "miazmos",
+  "order": 16,
+  "class": "solom",
+  "facility": "ctr"
+},{
+  "name": "Major Delivery (Solo)",
+  "code": "miadels",
+  "order": 17,
+  "class": "solom",
+  "facility": "gnd"
+},{
+  "name": "Minor Delivery (Solo)",
+  "code": "dels",
+  "order": 18,
+  "class": "solon",
+  "facility": "gnd"
+},{
+  "name": "Minor Delivery",
+  "code": "del",
+  "order": 19,
+  "class": "minor",
+  "facility": "gnd"
+},{
+  "name": "Major Delivery",
+  "code": "miadel",
+  "order": 20,
+  "class": "major",
+  "facility": "gnd"
+}]

@@ -1,6 +1,7 @@
 import e from 'express';
 const router = e.Router();
 import User from '../models/User.js';
+import staffNotes from '../models/staffNotes.js';
 import ControllerHours from '../models/ControllerHours.js';
 import Role from '../models/Role.js';
 import VisitApplication from '../models/VisitApplication.js';
@@ -454,6 +455,59 @@ router.get('/stats/:cid', async (req, res) => {
 
 	catch(e) {
 		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
+
+router.post('/notes/getnotes', async (req, res) => {
+	try {
+		const cid = req.body.cid;
+		const page = req.body.page || 1;
+		const limit = req.body.limit || 10;
+
+		const count = await staffNotes.countDocuments({
+			cid: {
+				$eq: cid
+			},
+			deleted: false
+		});
+
+		const notes = await staffNotes.find({
+			cid: {
+				$eq: cid
+			},
+			deleted: false
+		}).sort({updatedAt: "desc"}).skip(limit * (page - 1)).limit(limit).populate('author', 'fname lname').lean();
+
+		res.stdRes.data = {
+			amount: count,
+			notes: notes
+		};
+	
+		res.data = notes;
+		}
+	catch(e) {
+		console.error(e);
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
+
+router.post('/notes/createnote', async (req, res) => {
+	try {
+		const notes = await staffNotes.create(req.body);
+
+		await req.app.dossier.create({
+			by: req.body.authorCid,
+			affected: req.body.cid,
+			action: `%b created a staff note for %a`
+		});
+		}
+	catch(e) {
+		console.error(e);
 		res.stdRes.ret_det = e;
 	}
 
