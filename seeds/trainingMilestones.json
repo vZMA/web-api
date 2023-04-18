@@ -1,5 +1,10 @@
 [{
   "certCode": "gnd",
+  "code": "CAN",
+  "name": "Cancelled",
+  "rating": "10"
+},{
+  "certCode": "gnd",
   "code": "TRN",
   "name": "Training",
   "rating": "10"

@@ -245,6 +245,25 @@ router.delete('/request/:id', getUser, async (req, res) => {
 		const instructor = await User.findOne({cid: request.instructorCid}).select('fname lname email').lean();
 		request.delete();
 
+		// look for the matching training session record
+		const session = await TrainingSession.findOne({ cid: request.studentCid, 
+														startTime: request.startTime, 
+														milestoneCode: request.milestoneCode });
+		if (session) // If we find it;
+		{
+			const cancelDate = new Date;
+			
+			// If the cancellation is within the last 24 hours
+			if (session.startTime - cancelDate.getTime() < (24 * 60 * 60 * 1000))	{ // Update the training session to 'CAN' and submitted
+				const sessionfinalize = await TrainingSession.findByIdAndUpdate(session.id, {
+					milestoneCode: 'CAN',
+					submitted: true
+				});
+			}
+			else {
+				session.delete(); // Delete it
+			}
+		}	
 		if (instructor.email != '') 
 			transporter.sendMail({
 				to: `${student.email}, ${instructor.email}`,
@@ -252,8 +271,8 @@ router.delete('/request/:id', getUser, async (req, res) => {
 					name: "Miami ARTCC",
 					address: 'no-reply@zmaartcc.net'
 				},
-				subject: 'Training Request Cancelled | Miami ARTCC',
-				template: 'requestCancelled',
+				subject: 'Training Session Cancelled | Miami ARTCC',
+				template: 'sessionCancelled',
 				context: {
 					student: student.fname + ' ' + student.lname,
 					instructor: instructor.fname + ' ' + instructor.lname,
