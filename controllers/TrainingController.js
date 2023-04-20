@@ -10,6 +10,7 @@ import getUser from '../middleware/getUser.js';
 import auth from '../middleware/auth.js';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { runInNewContext } from 'vm';
 
 router.get('/request/purge', async (req, res) => {
 	try {
@@ -214,6 +215,11 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 
 		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
 		const instructor = await User.findOne({cid: res.user.cid}).select('fname lname email').lean();
+		
+		// return the session id to the calling function of the newly created training session
+		res.stdRes.data = {
+			sessionId: session.id
+		}
 
 		transporter.sendMail({
 			to: `${student.email}, ${instructor.email}`,
@@ -241,8 +247,8 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 router.delete('/request/:id', getUser, async (req, res) => {
 	try {
 		const request = await TrainingRequest.findById(req.params.id);
-		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
-		const instructor = await User.findOne({cid: request.instructorCid}).select('fname lname email').lean();
+		const student = await User.findOne({cid: request.studentCid}).select('fname lname email googleCalendarId googleApiRefreshToken').lean();
+		const instructor = await User.findOne({cid: request.instructorCid}).select('fname lname email googleCalendarId googleApiRefreshToken').lean();
 		request.delete();
 
 		// look for the matching training session record
@@ -251,6 +257,76 @@ router.delete('/request/:id', getUser, async (req, res) => {
 														milestoneCode: request.milestoneCode });
 		if (session) // If we find it;
 		{
+			// Delete the google calendars
+			if (session.stuGoogleEvent){ // Delete the students google event
+				try {
+					const calendarId = student.googleCalendarId; // The calendar ID of the user's primary calendar
+					const eventId = session.stuGoogleEvent; // The event that's being deleted
+					const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`;
+			
+					// Obtain an access token using the refresh token
+					const params = new URLSearchParams();
+					params.append('client_id', process.env.G_AUTH_ID);
+					params.append('client_secret', process.env.G_AUTH_SECRET);
+					params.append('refresh_token', student.googleApiRefreshToken);
+					params.append('grant_type', 'refresh_token');
+			
+					// Request a new access token from Google OAuth API
+					const response = await fetch('https://oauth2.googleapis.com/token', {
+						method: 'POST',
+						body: params
+					});
+					const data = await response.json();
+					
+					// Delete the event using the access token and the Google Calendar API
+					const accessToken = data.access_token;
+					const headers = new Headers();
+					headers.append('Authorization', `Bearer ${accessToken}`);
+					headers.append('Content-Type', 'application/json');
+					const deleteResponse = await fetch(url, {
+						method: 'DELETE',
+						headers
+					});
+					const deleteData = await deleteResponse.json();
+									
+				} catch(e) {
+					}
+			}
+			if (session.insGoogleEvent){ // Delete the instructors google event
+				try {
+					const calendarId = instructor.googleCalendarId; // The calendar ID of the user's primary calendar
+					const eventId = session.insGoogleEvent; // The event that's being deleted
+					const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`;
+			
+					// Obtain an access token using the refresh token
+					const params = new URLSearchParams();
+					params.append('client_id', process.env.G_AUTH_ID);
+					params.append('client_secret', process.env.G_AUTH_SECRET);
+					params.append('refresh_token', instructor.googleApiRefreshToken);
+					params.append('grant_type', 'refresh_token');
+			
+					// Request a new access token from Google OAuth API
+					const response = await fetch('https://oauth2.googleapis.com/token', {
+						method: 'POST',
+						body: params
+					});
+					const data = await response.json();
+					
+					// Delete the event using the access token and the Google Calendar API
+					const accessToken = data.access_token;
+					const headers = new Headers();
+					headers.append('Authorization', `Bearer ${accessToken}`);
+					headers.append('Content-Type', 'application/json');
+					const deleteResponse = await fetch(url, {
+						method: 'DELETE',
+						headers
+					});
+					const deleteData = await deleteResponse.json();
+									
+				} catch(e) {
+					}
+			}
+
 			const cancelDate = new Date;
 			
 			// If the cancellation is within the last 24 hours
@@ -380,10 +456,81 @@ router.get('/session/purge', async (req, res) => {
 router.delete('/session/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async(req, res) =>
 {
 	try {
-		const request = await TrainingSession.findById(req.params.id);
-		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
-		const instructor = await User.findOne({cid: request.instructorCid}).select('fname lname email').lean();
-		request.delete();
+		const session = await TrainingSession.findById(req.params.id);
+		const student = await User.findOne({cid: session.studentCid}).select('fname lname email googleCalendarId googleApiRefreshToken').lean();
+		const instructor = await User.findOne({cid: session.instructorCid}).select('fname lname email googleCalendarId googleApiRefreshToken').lean();
+		
+		// Delete the google calendars
+		if (session.stuGoogleEvent){ // Delete the students google event
+			try {
+				const calendarId = student.googleCalendarId; // The calendar ID of the user's primary calendar
+				const eventId = session.stuGoogleEvent; // The event that's being deleted
+				const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`;
+		
+				// Obtain an access token using the refresh token
+				const params = new URLSearchParams();
+				params.append('client_id', process.env.G_AUTH_ID);
+				params.append('client_secret', process.env.G_AUTH_SECRET);
+				params.append('refresh_token', student.googleApiRefreshToken);
+				params.append('grant_type', 'refresh_token');
+		
+				// Request a new access token from Google OAuth API
+				const response = await fetch('https://oauth2.googleapis.com/token', {
+					method: 'POST',
+					body: params
+				});
+				const data = await response.json();
+				
+				// Delete the event using the access token and the Google Calendar API
+				const accessToken = data.access_token;
+				const headers = new Headers();
+				headers.append('Authorization', `Bearer ${accessToken}`);
+				headers.append('Content-Type', 'application/json');
+				const deleteResponse = await fetch(url, {
+					method: 'DELETE',
+					headers
+				});
+				const deleteData = await deleteResponse.json();
+								
+			} catch(e) {
+				}
+		}
+		if (session.insGoogleEvent){ // Delete the instructors google event
+			try {
+				const calendarId = instructor.googleCalendarId; // The calendar ID of the user's primary calendar
+				const eventId = session.insGoogleEvent; // The event that's being deleted
+				const url = `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events/${eventId}`;
+		
+				// Obtain an access token using the refresh token
+				const params = new URLSearchParams();
+				params.append('client_id', process.env.G_AUTH_ID);
+				params.append('client_secret', process.env.G_AUTH_SECRET);
+				params.append('refresh_token', instructor.googleApiRefreshToken);
+				params.append('grant_type', 'refresh_token');
+		
+				// Request a new access token from Google OAuth API
+				const response = await fetch('https://oauth2.googleapis.com/token', {
+					method: 'POST',
+					body: params
+				});
+				const data = await response.json();
+				
+				// Delete the event using the access token and the Google Calendar API
+				const accessToken = data.access_token;
+				const headers = new Headers();
+				headers.append('Authorization', `Bearer ${accessToken}`);
+				headers.append('Content-Type', 'application/json');
+				const deleteResponse = await fetch(url, {
+					method: 'DELETE',
+					headers
+				});
+				const deleteData = await deleteResponse.json();
+								
+			} catch(e) {
+				}
+		}
+				
+		session.delete();
 		
 		if (instructor.email != '') 
 			transporter.sendMail({
@@ -397,8 +544,8 @@ router.delete('/session/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 
 				context: {
 					student: student.fname + ' ' + student.lname,
 					instructor: instructor.fname + ' ' + instructor.lname,
-					startTime: new Date(request.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
-					endTime: new Date(request.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})
+					startTime: new Date(session.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
+					endTime: new Date(session.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})
 				}
 			});
 	} catch(e)
@@ -544,6 +691,7 @@ router.get('/sessions/:cid', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', '
 });
 
 router.put('/session/save/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async(req, res) => {
+
 	try {
 		await TrainingSession.findByIdAndUpdate(req.params.id, req.body);
 	} catch(e) {
@@ -636,7 +784,7 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 
 	return res.json(res.stdRes);
 });
-router.put('/session/google/cal-create', getUser, async( req, res ) => {
+router.post('/session/google/cal-create', getUser, async( req, res ) => {
 	// API Function to create a google calendar entry
 	const googleUser = await User.findOne({cid: req.body.cid}).select('googleApiRefreshToken').lean();	
 	const refreshToken = googleUser.googleApiRefreshToken;
@@ -668,35 +816,42 @@ router.put('/session/google/cal-create', getUser, async( req, res ) => {
 		params.append('refresh_token', refreshToken);
 		params.append('grant_type', 'refresh_token');
 
-		fetch('https://oauth2.googleapis.com/token', {
-		method: 'POST',
-		body: params
-		})
-		.then(response => response.json()) 
-			.then(data => {
-			// Create the event using the access token and the Google Calendar API
-			const accessToken = data.access_token;
-			const headers = new Headers();
-			headers.append('Authorization', `Bearer ${accessToken}`);
-			headers.append('Content-Type', 'application/json');
-
-			return fetch(url, {
-				method: 'POST',
-				headers,
-				body: JSON.stringify(event)
-			});
-		})
-		.then(response => response.json())
-		.then(data => {
-			// 'Event created: ' data.id holds the event id
+		// Request a new access token from Google OAuth API
+		const response = await fetch('https://oauth2.googleapis.com/token', {
+			method: 'POST',
+			body: params
+		  });
+		const data = await response.json();
+		  
+		  // Create the event using the access token and the Google Calendar API
+		const accessToken = data.access_token;
+		const headers = new Headers();
+		headers.append('Authorization', `Bearer ${accessToken}`);
+		headers.append('Content-Type', 'application/json');
+		
+		const eventResponse = await fetch(url, {
+			method: 'POST',
+			headers,
+			body: JSON.stringify(event)
+		});
+		const eventData = await eventResponse.json();
+		  
+		  // Update the TrainingSession document with the new event ID
+		let updateFields = {};
+		if (req.body.calOwner === 'student') {
+			updateFields.stuGoogleEvent = eventData.id;
+		} else if (req.body.calOwner === 'instructor') {
+			updateFields.insGoogleEvent = eventData.id;
+		}
+		
+		const sessionUpdate = await TrainingSession.findByIdAndUpdate(req.body.sessionId, {
+			$set: {
+			  ...updateFields
+			}
 		})
 		.catch(error => {
 			// Error creating event: ${error}
 		});
-
-		res.stdRes.data = {
-			
-		};
 	} catch(e) {
 		req.app.Sentry.captureException(e);
 		res.stdRes.ret_det = e;
@@ -718,30 +873,31 @@ router.put('/session/google/cal-delete', getUser, async( req, res ) => {
 		params.append('refresh_token', req.body.token);
 		params.append('grant_type', 'refresh_token');
 
-		fetch('https://oauth2.googleapis.com/token', {
-		method: 'POST',
-		body: params
-		})
-		.then(response => response.json()) 
-			.then(data => {
-			// Create the event using the access token and the Google Calendar API
-			const accessToken = data.access_token;
-			const headers = new Headers();
-			headers.append('Authorization', `Bearer ${accessToken}`);
-			headers.append('Content-Type', 'application/json');
-
-			return fetch(url, {
-				method: 'DELETE',
-				headers,
-			});
-		})
-		.then(response => response.json())
-		.then(data => {
-			//Event deleted: eventId
-		})
-		.catch(error => {
-			//console.error(`Error creating event: ${error}`);
+		// Request a new access token from Google OAuth API
+		const response = await fetch('https://oauth2.googleapis.com/token', {
+			method: 'POST',
+			body: params
 		});
+		const data = await response.json();
+		
+		// Delete the event using the access token and the Google Calendar API
+		const accessToken = data.access_token;
+		const headers = new Headers();
+		headers.append('Authorization', `Bearer ${accessToken}`);
+		headers.append('Content-Type', 'application/json');
+		const deleteResponse = await fetch(url, {
+			method: 'DELETE',
+			headers
+		});
+		const deleteData = await deleteResponse.json();
+		  
+		// Handle successful deletion of event
+		// deleteData should be an empty object if the request was successful
+		if (Object.keys(deleteData).length === 0) {
+			// Event deleted successfully
+		} else {
+			// Handle errors here
+		}
 
 		res.stdRes.data = {
 			
