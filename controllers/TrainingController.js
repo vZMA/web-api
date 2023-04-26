@@ -252,7 +252,7 @@ router.delete('/request/:id', getUser, async (req, res) => {
 		request.delete();
 
 		// look for the matching training session record
-		const session = await TrainingSession.findOne({ cid: request.studentCid, 
+		const session = await TrainingSession.findOne({ studentCid: request.studentCid, 
 														startTime: request.startTime, 
 														milestoneCode: request.milestoneCode });
 		if (session) // If we find it;
@@ -460,6 +460,12 @@ router.delete('/session/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 
 		const student = await User.findOne({cid: session.studentCid}).select('fname lname email googleCalendarId googleApiRefreshToken').lean();
 		const instructor = await User.findOne({cid: session.instructorCid}).select('fname lname email googleCalendarId googleApiRefreshToken').lean();
 		
+		// Delete the training request if found
+		const request = await TrainingRequest.findOne({ cid: session.studentCid, 
+			startTime: session.startTime, 
+			milestoneCode: session.milestoneCode });
+		request.delete();
+
 		// Delete the google calendars
 		if (session.stuGoogleEvent){ // Delete the students google event
 			try {
