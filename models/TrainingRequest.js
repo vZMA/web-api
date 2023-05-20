@@ -7,6 +7,7 @@ const trainingRequestSchema = new m.Schema({
 	startTime: Date,
 	endTime: Date,
 	milestoneCode: String,
+	sessionId: String,
 	remarks: String
 }, {
 	collection: "trainingRequests",

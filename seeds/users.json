@@ -1,0 +1,20 @@
+[{
+  "cid": 0,
+  "fname": "Unknown",
+  "lname": "Controller",
+  "email": "",
+  "rating": 0,
+  "oi": null,
+  "broadcast": false,
+  "member": false,
+  "vis": false,
+  "avatar": "",
+  "certCodes": [],
+  "roleCodes": [],
+  "trainingMilestones": [],
+  "deleted": false,
+  "__v": 0,
+  "joinDate": null,
+  "userTimezone": "0",
+  "GoogleClientId": ""
+}]
