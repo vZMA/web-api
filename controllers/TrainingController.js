@@ -209,6 +209,7 @@ router.post('/request/take/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr
 			instructorCid: res.user.cid,
 			startTime: req.body.startTime,
 			endTime: req.body.endTime,
+			lastReminderDate: req.body.endTime,
 			milestoneCode: request.milestoneCode,
 			requestId: request._id,
 			submitted: false
@@ -438,6 +439,59 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 			submitted: false
 		}).populate('student', 'fname lname cid vis').populate('milestone', 'name code').lean();
 
+		res.stdRes.data = sessions;
+	} catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
+
+router.get('/session/remind', async (req, res) => {
+	try {
+		const selectDate = new Date();
+		selectDate.setDate(selectDate.getDate() -2);
+		const remindDate = new Date();
+		remindDate.setDate(remindDate.getDate() -1);
+		const latestReminder = new Date();
+		
+		const sessions = await TrainingSession.find({
+			deleted: false,
+			submitted: false,
+			startTime: { $lte: selectDate },
+			lastReminderDate: {$lte: remindDate },
+		}).sort({startTime: 1})
+			.populate('student', 'fname lname cid vis email')
+			.populate('instructor', 'fname lname cid vis email')
+			.populate('milestone', 'name code')
+			.lean();
+
+
+		for (const session of sessions) {
+				// Send an email reminder to the instructor
+			transporter.sendMail({
+				to: `${session.instructor.email}`,
+				from: {
+					name: "Miami ARTCC",
+					address: 'no-reply@zmaartcc.net'
+				},
+				subject: 'Open training session to be completed | Miami ARTCC',
+				template: 'sessionReminder',
+				context: {
+					student: session.student.fname + ' ' + session.student.lname,
+					instructor: session.instructor.fname + ' ' + session.instructor.lname,
+					startTime: new Date(session.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
+					endTime: new Date(session.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})
+				}
+			});
+
+			// Update the last reminder date on each one	
+			const request1 = await TrainingSession.findByIdAndUpdate(session._id, {
+					lastReminderDate: latestReminder
+				}).lean();
+			}
+		
 		res.stdRes.data = sessions;
 	} catch(e) {
 		req.app.Sentry.captureException(e);

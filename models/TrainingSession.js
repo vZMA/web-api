@@ -8,6 +8,7 @@ const trainingSessionSchema = new m.Schema({
 	position: String,
 	startTime: Date,
 	endTime: Date,
+	lastReminderDate: Date,
 	progress: Number,
 	duration: String,
 	movements: Number,
