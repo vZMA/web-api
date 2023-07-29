@@ -490,6 +490,12 @@ router.get('/session/remind', async (req, res) => {
 			const request1 = await TrainingSession.findByIdAndUpdate(session._id, {
 					lastReminderDate: latestReminder
 				}).lean();
+
+			await req.app.dossier.create({
+				by: -1,
+				affected: session.instructor.cid,
+				action: `Training notes reminder email was sent to %a.`
+				});	
 			}
 		
 		res.stdRes.data = sessions;
