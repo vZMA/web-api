@@ -489,7 +489,7 @@ router.put('/:slug/notify', getUser, auth(['atm', 'datm', 'ec', 'wm']), async (r
 		await Event.updateOne({url: req.params.slug}, {
 			$set: {
 				positions: req.body.assignment,
-	//			submitted: true
+				submitted: true
 			}
 		});
 
