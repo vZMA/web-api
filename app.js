@@ -105,6 +105,7 @@ app.dossier = Dossier;
 // Connect to MongoDB
 mongoose.set('toJSON', {virtuals: true});
 mongoose.set('toObject', {virtuals: true});
+mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URI);
 const db = mongoose.connection;
 db.once('open', () => console.log('Successfully connected to MongoDB'));

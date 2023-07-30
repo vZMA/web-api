@@ -8,6 +8,7 @@ import Event from '../models/Event.js';
 import User from '../models/User.js';
 import getUser from '../middleware/getUser.js';
 import auth from '../middleware/auth.js';
+import { startTransaction } from '@sentry/node';
 
 const upload = multer({
 	storage: multer.diskStorage({
@@ -488,23 +489,45 @@ router.put('/:slug/notify', getUser, auth(['atm', 'datm', 'ec', 'wm']), async (r
 		await Event.updateOne({url: req.params.slug}, {
 			$set: {
 				positions: req.body.assignment,
-				submitted: true
+	//			submitted: true
 			}
 		});
 
-		const getSignups = await Event.findOne({url: req.params.slug }, 'name url signups').populate('signups.user', 'fname lname email').lean();
+		const getSignups = await Event.findOne({url: req.params.slug }, 'name eventStart eventEnd url signups').populate('signups.user', 'fname lname email').lean();
 		getSignups.signups.forEach(async (signup) => {
+			const startDate = String(getSignups.eventStart.getDate()).padStart(2,'0');
+			const startMonth = String(getSignups.eventStart.getMonth()+1).padStart(2,'0');
+			const startYear = getSignups.eventStart.getFullYear();
+			const startDateString = `${startMonth}-${startDate}-${startYear}`;
+			const startTime = new Date(getSignups.eventStart);
+			const endTime = new Date(getSignups.eventEnd);
+
+			// Function to format time as "HH:mm:ss"
+			const formatTime = (date) => {
+			const hours = String(date.getHours()).padStart(2, '0');
+			const minutes = String(date.getMinutes()).padStart(2, '0');
+			const seconds = String(date.getSeconds()).padStart(2, '0');
+			return `${hours}:${minutes}:${seconds}z`;
+			};
+
+			// Get time strings in "HH:mm:ss" format
+			const startTimeString = formatTime(startTime);
+			const endTimeString = formatTime(endTime);
+			
 			await transporter.sendMail({
 				to: signup.user.email,
 				from: {
 					name: "Miami ARTCC",
 					address: 'no-reply@zmaartcc.net'
 				},
-				subject: `Position Assignments for ${getSignups.name} | Miami ARTCC`,
+				subject: `Miami ARTCC Event Reminder - ${getSignups.name}`,
 				template: 'event',
 				context: {
 					eventTitle: getSignups.name,
 					name: `${signup.user.fname} ${signup.user.lname}`,
+					eventDate: startDateString,
+					eventStart: startTimeString,
+					eventEnd: endTimeString,	
 					slug: getSignups.url
 				}
 			});
