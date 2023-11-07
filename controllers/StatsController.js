@@ -207,8 +207,8 @@ router.get('/activity', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), async 
 	 */
 
 		const { startDate, endDate } = req.query;
-		const startDateTime = startDate ? new Date(startDate) : L.utc().toJSDate();
-		const endDateTime = endDate ? new Date(endDate) : L.utc().minus({ days: 30 }).toJSDate();
+		const startDateTime = startDate ? new Date(startDate) : L.utc().minus({ days: 30 }).toJSDate();
+		const endDateTime = endDate ? new Date(endDate) : L.utc().toJSDate();
 
 		const users = await User.find({ member: true }).select('fname lname cid email rating oi vis createdAt roleCodes certCodes joinDate').populate('certifications').lean({ virtuals: true });
 		const activityReduced = {};
