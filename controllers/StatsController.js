@@ -171,6 +171,7 @@ router.get('/ins', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), asy
 
 router.get('/activity', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), async (req, res) => {
 	try {
+	/**
 		const today = L.utc();
 		const chkDate = today.minus({days: 31});
 		const users = await User.find({member: true}).select('fname lname cid email rating oi vis createdAt roleCodes certCodes joinDate').populate('certifications').lean({virtuals: true});
@@ -202,7 +203,34 @@ router.get('/activity', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), async 
 				_id: "$studentCid",
 				total: {$sum: 1}
 			}}
-		])).forEach(i => sessionsReduced[i._id] = i.total);		
+		])).forEach(i => sessionsReduced[i._id] = i.total);
+	 */
+
+		const { startDate, endDate } = req.query;
+		const startDateTime = startDate ? new Date(startDate) : L.utc().toJSDate();
+		const endDateTime = endDate ? new Date(endDate) : L.utc().minus({ days: 30 }).toJSDate();
+
+		const users = await User.find({ member: true }).select('fname lname cid email rating oi vis createdAt roleCodes certCodes joinDate').populate('certifications').lean({ virtuals: true });
+		const activityReduced = {};
+		const trainingReduced = {};
+		const sessionsReduced = {};
+
+		(await ControllerHours.aggregate([
+			{ $match: { timeStart: { $gt: startDateTime, $lt: endDateTime } } },
+			{ $project: { length: { $subtract: ['$timeEnd', '$timeStart'] }, cid: 1 } },
+			{ $group: { _id: "$cid", total: { $sum: "$length" } } }
+		])).forEach(i => activityReduced[i._id] = i.total);
+		(await TrainingRequest.aggregate([
+			{ $match: { startTime: { $gt: startDateTime, $lt: endDateTime } } },
+			{ $group: { _id: "$studentCid", total: { $sum: 1 } } }
+		])).forEach(i => trainingReduced[i._id] = i.total);
+		(await TrainingSession.aggregate([
+			{ $match: { startTime: { $gt: startDateTime, $lt: endDateTime } } },
+			{ $group: { _id: "$studentCid", total: { $sum: 1 } } }
+		])).forEach(i => sessionsReduced[i._id] = i.total);
+		
+
+
 		const userData = {};
 		for(let user of users) {
 			let fiftyTime = await req.app.redis.get(`FIFTY:${user.cid}`);
