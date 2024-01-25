@@ -91,7 +91,7 @@ router.post('/', async (req, res) => { // Submit feedback
 
 router.get('/controllers', async ({res}) => { // Controller list on feedback page
 	try {
-		const controllers = await User.find({deletedAt: null, member: true}).sort('fname').select('fname lname cid rating vis _id').lean();
+		const controllers = await User.find({deletedAt: null, rating: {$ne: 1},  member: true}).sort('fname').select('fname lname cid rating vis _id').lean();
 		res.stdRes.data = controllers;
 	} catch(e) {
 		req.app.Sentry.captureException(e);

@@ -1,4 +1,64 @@
 [{
+  "certCode": "miactr",
+  "code": "T1",
+  "name": "Tier 1 Training",
+  "rating": "1"
+},{
+  "certCode": "miactr",
+  "code": "T1CR",
+  "name": "Tier 1 Checkride",
+  "rating": "1"
+},{
+  "certCode": "gnd",
+  "code": "TRN-S1",
+  "name": "S1 Qualification Program",
+  "rating": "1"
+},{
+  "certCode": "gnd",
+  "code":"CR-S1",
+  "name": "S1 Check Ride",
+  "rating": "1"
+},{
+  "certCode": "twr",
+  "code": "TRN-S2",
+  "name": "S2 Qualification Program",
+  "rating": "2"
+},{
+  "certCode": "twr",
+  "code":"CR-S2",
+  "name": "S2 Check Ride",
+  "rating": "2"
+},{
+  "certCode": "app",
+  "code": "TRN-S3",
+  "name": "S3 Qualification Program",
+  "rating": "3"
+},{
+  "certCode": "app",
+  "code":"CR-S3",
+  "name": "S3 Check Ride",
+  "rating": "3"
+},{
+ "certCode": "zma",
+  "code": "TRN-C1",
+  "name": "C1 Qualification Program",
+  "rating": "4"
+},{
+  "certCode": "zma",
+   "code": "CR-C1",
+   "name": "C1 Check Ride",
+   "rating": "4"
+ },{
+  "certCode": "zmo",
+  "code": "TRN-ZMO",
+  "name": "Oceanic Qualification Program",
+  "rating": "5"
+},{
+  "certCode": "zmo",
+  "code": "CR-ZMO",
+  "name": "Oceanic Check Ride",
+  "rating": "5"
+},{
   "certCode": "gnd",
   "code": "CAN",
   "name": "Cancelled",
@@ -8,11 +68,6 @@
   "code": "TRN",
   "name": "Training",
   "rating": "10"
-},{
-  "certCode": "miactr",
-  "code": "GRP",
-  "name": "GRP Comp Check",
-  "rating": "1"
 },{
   "certCode": "mots",
   "code": "MOTS",
@@ -24,63 +79,68 @@
   "name": "Rating Advancement Over-The-Shoulder Evaluation",
   "rating": "10"
 },{
-  "certCode": "gnd",
-  "code": "S1",
-  "name": "S1 Training",
-  "rating": "1"
-},{
-  "certCode": "miagnd",
-  "code": "MS1",
-  "name": "Major S1 Training",
-  "rating": "2"
-},{
-  "certCode": "twr",
-  "code": "S2",
-  "name": "S2 Training",
-  "rating": "2"
-},{
-  "certCode": "miatwr",
-  "code": "MS2",
-  "name": "Major S2 Training",
-  "rating": "3"
-},{
-  "certCode": "app",
-  "code": "S3",
-  "name": "S3 Training",
-  "rating": "3"
-},{
-  "certCode": "miaapp",
-  "code": "MS3",
-  "name": "Major S3 Training",
-  "rating": "4"
-},{
- "certCode": "zma",
-  "code": "C1",
-  "name": "C1 Training",
-  "rating": "4"
-},{
-  "certCode": "zmo",
-  "code": "ZMO",
-  "name": "Oceanic Training",
-  "rating": "5"
-},{
-  "certCode": "vismiatwr",
-  "code": "MS2",
-  "name": "Major S2 Training",
-  "rating": "3"
-},{
-  "certCode": "vismiaapp",
-  "code": "MS3",
-  "name": "Major S3 Training",
-  "rating": "4"
-},{
-  "certCode": "viszma",
-  "code": "ZMO",
-  "name": "Oceanic Training",
-  "rating": "5"
+  "certCode": "miactr",
+  "code": "GRP",
+  "name": "GRP Comp Check",
+  "rating": "10"
 },{
   "certCode": "ots",
   "code": "OTS",
   "name": "Over the Shoulder evaluation",
-  "rating": "1"
+  "rating": "10"
+},{
+  "certCode": "gnd",
+  "code": "S1",
+  "name": "S1 Training",
+  "rating": "10"
+},{
+  "certCode": "miagnd",
+  "code": "MS1",
+  "name": "Major S1 Training",
+  "rating": "10"
+},{
+  "certCode": "twr",
+  "code": "S2",
+  "name": "S2 Training",
+  "rating": "10"
+},{
+  "certCode": "miatwr",
+  "code": "MS2",
+  "name": "Major S2 Training",
+  "rating": "10"
+},{
+  "certCode": "app",
+  "code": "S3",
+  "name": "S3 Training",
+  "rating": "10"
+},{
+  "certCode": "miaapp",
+  "code": "MS3",
+  "name": "Major S3 Training",
+  "rating": "10"
+},{
+ "certCode": "zma",
+  "code": "C1",
+  "name": "C1 Training",
+  "rating": "10"
+},{
+  "certCode": "zmo",
+  "code": "ZMO",
+  "name": "Oceanic Training",
+  "rating": "10"
+},{
+  "certCode": "vismiatwr",
+  "code": "MS2",
+  "name": "Major S2 Training",
+  "rating": "10"
+},{
+  "certCode": "vismiaapp",
+  "code": "MS3",
+  "name": "Major S3 Training",
+  "rating": "10"
+},{
+  "certCode": "viszma",
+  "code": "ZMO",
+  "name": "Oceanic Training",
+  "rating": "10"
 }]

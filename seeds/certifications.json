@@ -1,121 +1,78 @@
 [{
-  "name": "Minor Ground",
+   "name": "Tier 2 Del. / Ground",
   "code": "gnd",
   "order": 1,
   "class": "minor",
   "facility": "gnd"
-},{
-  "name": "Major Ground",
+},
+{
+  "name": "Tier 1 Del. / Ground",
   "code": "miagnd",
   "order": 2,
   "class": "major",
   "facility": "gnd"
-},{
-  "name": "Minor Tower",
+},
+{
+  "name": "Tier 2 Tower",
   "code": "twr",
   "order": 3,
   "class": "minor",
   "facility": "twr"
-},{
-  "name": "Major Tower",
+},
+{
+  "name": "Tier 1 Tower",
   "code": "miatwr",
   "order": 4,
   "class": "major",
   "facility": "twr"
-},{
-  "name": "Minor Approach",
+},
+{
+  "name": "Tier 2 Approach",
   "code": "app",
   "order": 5,
   "class": "minor",
   "facility": "app"
-},{
-  "name": "Major Approach",
+},
+{
+  "name": "Tier 1 Approach",
   "code": "miaapp",
   "order": 6,
   "class": "major",
   "facility": "app"
-},{
-  "name": "Miami Center",
+},
+{
+  "name": "Domestic Center",
   "code": "zma",
   "order": 7,
   "class": "center",
   "facility": "ctr"
-},{
+},
+{
   "name": "Miami Oceanic",
   "code": "zmo",
   "order": 8,
   "class": "center",
   "facility": "ctr"
-},{
-  "name": "Minor Ground (Solo)",
-  "code": "gnds",
-  "order": 9,
-  "class": "solon",
-  "facility": "gnd"
-},{
-  "name": "Major Ground (Solo)",
-  "code": "miagnds",
-  "order": 10,
-  "class": "solom",
-  "facility": "gnd"
-},{
-  "name": "Minor Tower (Solo)",
+},
+{
+  "name": "Tower (Solo)",
   "code": "twrs",
-  "order": 11,
-  "class": "solon",
+  "order": 9,
+  "class": "solo",
   "facility": "twr"
-},{
-  "name": "Major Tower (Solo)",
-  "code": "miatwrs",
-  "order": 12,
-  "class": "solom",
-  "facility": "twr"
-},{
-  "name": "Minor Approach (Solo)",
+},
+{
+  "name": "Approach (Solo)",
   "code": "apps",
-  "order": 13,
-  "class": "solon",
+  "order": 10,
+  "class": "solo",
   "facility": "app"
-},{
-  "name": "Major Approach (Solo)",
-  "code": "miaapps",
-  "order": 14,
-  "class": "solom",
-  "facility": "app"
-},{
-  "name": "Miami Center (Solo)",
+},
+{
+  "name": "Domestic Center (Solo)",
   "code": "miazmas",
-  "order": 15,
-  "class": "solom",
+  "order": 11,
+  "class": "solo",
   "facility": "ctr"
-},{
-  "name": "Miami Oceanic (Solo)",
-  "code": "miazmos",
-  "order": 16,
-  "class": "solom",
-  "facility": "ctr"
-},{
-  "name": "Major Delivery (Solo)",
-  "code": "miadels",
-  "order": 17,
-  "class": "solom",
-  "facility": "gnd"
-},{
-  "name": "Minor Delivery (Solo)",
-  "code": "dels",
-  "order": 18,
-  "class": "solon",
-  "facility": "gnd"
-},{
-  "name": "Minor Delivery",
-  "code": "del",
-  "order": 19,
-  "class": "minor",
-  "facility": "gnd"
-},{
-  "name": "Major Delivery",
-  "code": "miadel",
-  "order": 20,
-  "class": "major",
-  "facility": "gnd"
-}]
+}
+]
