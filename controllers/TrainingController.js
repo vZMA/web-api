@@ -381,6 +381,100 @@ router.delete('/request/:id', getUser, async (req, res) => {
 	return res.json(res.stdRes);
 });
 
+router.get('/solo', getUser, 
+//auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), 
+async (req, res) => {
+	try {
+		const users = await User.find({vis: false, cid: { "$nin": [995625] }}).select('-email -idsToken -discordInfo').sort({
+			rating: 'desc',
+			lname: 'asc',
+
+			fname: 'asc'
+		}).populate({
+			path: 'certifications',
+			options: {
+				sort: {order: 'desc'}
+			}
+		}).lean({virtuals: true});
+
+		const certed = {
+			users: []
+		}
+
+		users.forEach(user => {
+			const hasTwrsCert = user.certifications.some(cert => cert.code === 'twrs');
+			if (hasTwrsCert) {
+				certed.users.push(user);
+			}
+		});
+
+		res.stdRes.data = certed;
+	} catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
+
+router.post('/solo/:id', getUser, 
+//auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), 
+async (req, res) => {
+	try {
+		const updateUser = await User.findOne({cid: req.params.id }).select('-email -idsToken -discordInfo').lean({virtuals: true});
+		
+		const pos = req.body.position.slice(-3);
+		if (pos==="TWR")
+			updateUser.certCodes.push('twrs');
+		else if (pos==='APP')
+			updateUser.certCodes.push('apps');
+		else if (pos==='CTR')
+			updateUser.certCodes.push('miazmas')
+
+		await User.findOneAndUpdate({cid: req.params.id}, {
+				certCodes: updateUser.certCodes,
+				towersoloExpiration: req.body.expDate
+			});
+		return res.json(res.stdRes);
+	} catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
+
+router.post('/solodelete/:id', getUser, 
+//auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), 
+async (req, res) => {
+	try {
+		const updateUser = await User.findOne({cid: req.params.id }).select('-email -idsToken -discordInfo').lean({virtuals: true});
+		
+		const pos = req.body.position.slice(-3);
+		var indexToDelete;
+		// Find the index of 'twrs' in the array
+		
+		if (pos === 'TWR') indexToDelete = updateUser.certCodes.indexOf('twrs'); 
+		else if (pos === 'APP')  indexToDelete = updateUser.certCodes.indexOf('apps');
+		else if (pos === 'CTR')  indexToDelete = updateUser.certCodes.indexOf('miazmas');
+
+		// Check if index is found in the array
+		if (indexToDelete !== -1) 
+  			updateUser.certCodes.splice(indexToDelete, 1);
+		
+		await User.findOneAndUpdate({cid: req.params.id}, {
+				certCodes: updateUser.certCodes,
+				towersoloExpiration: ''
+			});
+		return res.json(res.stdRes);
+	} catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
+
 router.get('/request/:date', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
 		const d = new Date(`${req.params.date.slice(0,4)}-${req.params.date.slice(4,6)}-${req.params.date.slice(6,8)}`);

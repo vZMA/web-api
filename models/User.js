@@ -39,6 +39,7 @@ const userSchema = new m.Schema({
 	},
 	idsToken: String,
 	certCodes: [],
+	towersoloExpiration: Date,
 	roleCodes: [],
 	trainingMilestones: [{
 		type: m.Schema.Types.ObjectId, ref: 'TrainingMilestone'
