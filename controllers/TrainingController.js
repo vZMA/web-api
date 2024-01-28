@@ -432,7 +432,8 @@ async (req, res) => {
 
 		await User.findOneAndUpdate({cid: req.params.id}, {
 				certCodes: updateUser.certCodes,
-				towersoloExpiration: req.body.expDate
+				towersoloExpiration: req.body.expDate,
+				soloPosition: req.body.position
 			});
 		return res.json(res.stdRes);
 	} catch(e) {
@@ -463,7 +464,8 @@ async (req, res) => {
 		
 		await User.findOneAndUpdate({cid: req.params.id}, {
 				certCodes: updateUser.certCodes,
-				towersoloExpiration: ''
+				towersoloExpiration: '',
+				soloPosition: ''
 			});
 		return res.json(res.stdRes);
 	} catch(e) {
