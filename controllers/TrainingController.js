@@ -385,10 +385,9 @@ router.get('/solo', getUser,
 //auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), 
 async (req, res) => {
 	try {
-		const users = await User.find({vis: false, cid: { "$nin": [995625] }}).select('-email -idsToken -discordInfo').sort({
+		const users = await User.find({member:true, vis: false, cid: { "$nin": [995625] }}).select('-email -idsToken -discordInfo').sort({
 			rating: 'desc',
 			lname: 'asc',
-
 			fname: 'asc'
 		}).populate({
 			path: 'certifications',
