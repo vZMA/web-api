@@ -532,7 +532,10 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 			instructorCid: res.user.cid,
 			deleted: false,
 			submitted: false
-		}).populate('student', 'fname lname cid vis').populate('milestone', 'name code').lean();
+		}).populate('student', 'fname lname cid vis')
+		.populate('milestone', 'name code')
+		.sort( { startTime: 1 })
+		.lean();
 
 		res.stdRes.data = sessions;
 	} catch(e) {
