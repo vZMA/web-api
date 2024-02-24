@@ -506,7 +506,7 @@ router.get('/request/:date', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', '
 	return res.json(res.stdRes);
 });
 
-router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'wm']), async (req, res) => {
+router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'wm', 'ins', 'mtr']), async (req, res) => {
 	try {
 		const sessions = await TrainingSession.find({
 			deleted: false,
