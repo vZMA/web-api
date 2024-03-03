@@ -506,7 +506,7 @@ router.get('/request/:date', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', '
 	return res.json(res.stdRes);
 });
 
-router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'wm']), async (req, res) => {
+router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'wm', 'ins', 'mtr']), async (req, res) => {
 	try {
 		const sessions = await TrainingSession.find({
 			deleted: false,
@@ -532,7 +532,10 @@ router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 			instructorCid: res.user.cid,
 			deleted: false,
 			submitted: false
-		}).populate('student', 'fname lname cid vis').populate('milestone', 'name code').lean();
+		}).populate('student', 'fname lname cid vis')
+		.populate('milestone', 'name code')
+		.sort( { startTime: 1 })
+		.lean();
 
 		res.stdRes.data = sessions;
 	} catch(e) {
