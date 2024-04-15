@@ -24,7 +24,7 @@ const transport = nodemailer.createTransport({
 	//auth: {
 		//user: 'no-reply@zmaartcc.net',
 		//pass: process.env.EMAIL_PASSWORD
-	},
+	//},
 });
 
 transport.use('compile', neh({
