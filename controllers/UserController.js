@@ -12,6 +12,7 @@ import ControllerHours from "../models/ControllerHours.js";
 import Discord from "discord-oauth2";
 import oAuth from "../middleware/vatsimOAuth.js";
 import vatsimApiHelper from "../helpers/vatsimApiHelper.js"; 
+const moment = require('moment');
 
 dotenv.config();
 
@@ -224,6 +225,32 @@ router.get("/sessions", getUser, async (req, res) => {
     req.app.Sentry.captureException(e);
     res.stdRes.ret_det = e;
   }
+
+  return res.json(res.stdRes);
+});
+
+router.get("/sessions-cq", getUser, async (req, res) => {
+  try {
+  const now = moment();
+  const startMonth = Math.floor(now.month() / 3) * 3; // Determine the start month of the current quarter
+  const startDate = moment().month(startMonth).startOf('month').startOf('day'); // Start of the quarter
+  
+  const sessions = await ControllerHours.find({
+    cid: res.user.cid,
+    timeStart: {
+      $gte: startDate.toDate(),
+      $lte: endDate.toDate()
+    }
+  })
+    .sort({ timeStart: -1 })
+    .limit(20)
+    .lean();
+
+  res.stdRes.data = sessions;
+  res.status(200).json(res.stdRes);
+} catch (e) { 
+  res.status(500).json({ error: e.message });
+}
 
   return res.json(res.stdRes);
 });
