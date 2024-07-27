@@ -252,7 +252,7 @@ router.get("/sessions-cq", getUser, async (req, res) => {
   res.status(500).json({ error: e.message });
 }
 
-  return res.json(res.stdRes);
+  //return res.json(res.stdRes);
 });
 
 router.get("/google/uri", getUser, async (req, res) => {
