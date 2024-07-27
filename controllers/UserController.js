@@ -239,7 +239,7 @@ router.get("/sessions-cq", getUser, async (req, res) => {
     cid: res.user.cid,
     timeStart: {
       $gte: startDate.toDate(),
-      $lte: endDate.toDate()
+      //$lte: endDate.toDate()
     }
   })
     .sort({ timeStart: -1 })
