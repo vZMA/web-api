@@ -238,8 +238,8 @@ router.get("/sessions-cq", getUser, async (req, res) => {
   const sessions = await ControllerHours.find({
     cid: res.user.cid,
     timeStart: {
-      $gte: startDate.toDate(),
-      //$lte: endDate.toDate()
+      $gte: startDate.toDate()
+      // $lte: endDate.toDate()
     }
   })
     .sort({ timeStart: -1 })
