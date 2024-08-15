@@ -435,6 +435,10 @@ async (req, res) => {
 				towersoloExpiration: req.body.expDate,
 				soloPosition: req.body.position
 			});
+
+		if (pos === 'APP'  || pos === 'CTR')
+			await axios.post(`https://api.vatusa.net/v2/solo?cid=${req.params.id}&position=${req.body.position}&expDate=${towersoloExpiration}&apikey=${process.env.VATUSA_API_KEY}`)
+	
 		return res.json(res.stdRes);
 	} catch(e) {
 		req.app.Sentry.captureException(e);
