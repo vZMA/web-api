@@ -439,6 +439,13 @@ async (req, res) => {
 		if (pos === 'APP'  || pos === 'CTR')
 			await axios.post(`https://api.vatusa.net/v2/solo?cid=${req.params.id}&position=${req.body.position}&expDate=${req.body.expDate}&apikey=${process.env.VATUSA_API_KEY}`)
 	
+		await req.app.dossier.create({
+			by: res.user.cid,
+			affected: req.params.cid,
+			action: `%b issued a Solo Certificate for ` + req.body.position + ` for %a.`
+			});	
+
+
 		return res.json(res.stdRes);
 	} catch(e) {
 		req.app.Sentry.captureException(e);
@@ -474,7 +481,14 @@ async (req, res) => {
 				towersoloExpiration: '',
 				soloPosition: ''
 			});
-		return res.json(res.stdRes);
+		
+		await req.app.dossier.create({
+				by: res.user.cid,
+				affected: req.params.cid,
+				action: `%b deleted a Solo Certificate for ` + req.body.position + ` for %a.`
+				});	
+		
+			return res.json(res.stdRes);
 	} catch(e) {
 		req.app.Sentry.captureException(e);
 		res.stdRes.ret_det = e;
