@@ -458,7 +458,7 @@ async (req, res) => {
 		else if (pos === 'APP')  indexToDelete = updateUser.certCodes.indexOf('apps');
 		else if (pos === 'CTR')  indexToDelete = updateUser.certCodes.indexOf('miazmas');
 
-		if (pos === 'APP'  || app=== 'CTR')
+		if (pos === 'APP'  || pos === 'CTR')
 			await axios.post(`https://api.vatusa.net/v2/solo?cid=${req.params.id}&position=${req.body.position}&apikey=${process.env.VATUSA_API_KEY}`)
 
 		// Check if index is found in the array
