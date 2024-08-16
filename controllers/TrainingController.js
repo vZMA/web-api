@@ -441,7 +441,7 @@ async (req, res) => {
 	
 		await req.app.dossier.create({
 			by: res.user.cid,
-			affected: req.params.cid,
+			affected: req.params.id,
 			action: `%b issued a Solo Certificate for ` + req.body.position + ` for %a.`
 			});	
 
@@ -484,7 +484,7 @@ async (req, res) => {
 		
 		await req.app.dossier.create({
 				by: res.user.cid,
-				affected: req.params.cid,
+				affected: req.params.id,
 				action: `%b deleted a Solo Certificate for ` + req.body.position + ` for %a.`
 				});	
 		
