@@ -17,9 +17,13 @@ const transport = nodemailer.createTransport({
 
 //	SES: {ses, aws},
 //	sendingRate: 1
-host: "mail.zmaartcc.net",
-port: 587,
-secure: false,
+//host: "mail.zmaartcc.net",
+//port: 587,
+//secure: false,
+host: "smtp.hostinger.com",
+port: 465,
+secure: true,
+
 ignoreTLS: true,
 auth: {
 		user: 'no-reply@zmaartcc.net',
