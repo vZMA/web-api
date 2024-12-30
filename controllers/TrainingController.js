@@ -549,22 +549,34 @@ router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'wm', 'ins', 'mtr
 
 router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
+		if(req.body.startTime===null) {
+			throw {
+				code: 400,
+				message: "Start time must be set"
+			}
+		}
+		if(req.body.endTime===null) {
+			throw {
+				code: 400,
+				message: "End time must be set"
+			}
+		}
 		if(new Date(req.body.startTime) >= new Date(req.body.endTime)) {
 			throw {
 				code: 400,
 				message: "End time must be greater than start time"
 			}
 		}
-		if(req.body.endTime - req.body.startTime >= 3600 * 1000 * 4) {
+		if(new Date(req.body.endTime) - new Date(req.body.startTime) >= 3600 * 1000 * 4) {
 			throw {
 				code: 400,
 				message: "Sessions must be less than 4 hours in length"
 			}
 		}
-		if(!req.body.milestoneCode) {
+		if(req.body.milestoneCode===null) {
 			throw {
 				code: 400,
-				message: "A Milestone Code must be seleted."
+				message: "A Milestone Code must be set"
 			}
 		}
 		
