@@ -204,7 +204,14 @@ router.get('/controllers', async ({res}) => { // Controller list
 });
 router.get('/ins-and-mts', async ({res}) => { // Controller list
 	try {
-		const instructors = await User.find({deletedAt: null, member: true}).sort('fname').select('fname lname cid rating vis _id').lean();
+		const instructors = await User.find({
+            deletedAt: { $exists: false },
+            member: true,
+            rolecode: { $in: ['instructors', 'training'] }, // Filter by role codes
+        })
+        .sort('fname')
+        .select('fname lname cid rating vis _id rolecode') // Include rolecode if needed
+        .lean();
 		res.stdRes.data = instructors;
 	} catch(e) {
 		req.app.Sentry.captureException(e);
