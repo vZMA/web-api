@@ -556,23 +556,26 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 			}
 		}
 			const session = await TrainingSession.create({
-				studentCid: req.studentCid,
-				instructorCid: req.instructorCid,
+				studentCid: req.body.studentCid,
+				instructorCid: req.body.instructorCid,
 				startTime: req.body.startTime,
 				endTime: req.body.endTime,
 				lastReminderDate: req.body.endTime,
-				milestoneCode: request.milestoneCode,
+				milestoneCode: req.body.milestoneCode,
 				submitted: false
 		});
 
-		const student = await User.findOne({cid: req.body.studentCid}).select('fname lname email').lean();
-		const instructor = await User.findOne({cid: req.body.instructorCid}).select('fname lname email').lean();
 		
 		// return the session id to the calling function of the newly created training session
 		res.stdRes.data = {
 			sessionId: session.id
 		}
 	
+		return res.json(res.stdRes);
+
+		const student = await User.findOne({cid: req.body.studentCid}).select('fname lname email').lean();
+		const instructor = await User.findOne({cid: req.body.instructorCid}).select('fname lname email').lean();
+		
 		if (req.body.startTime > new Date())
 				transporter.sendMail({
 					to: `${student.email}, ${instructor.email}`,
@@ -594,7 +597,7 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 		res.stdRes.ret_det = e;
 	}
 
-	return res.json(res.stdRes);
+	
 });
 router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
