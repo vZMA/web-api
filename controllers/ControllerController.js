@@ -193,7 +193,7 @@ router.get('/role', async (req, res) => {
 });
 router.get('/controllers', async ({res}) => { // Controller list
 	try {
-		const controllers = await User.find({deletedAt: null, member: true}).sort('fname').select('fname lname cid rating vis _id').lean();
+		const controllers = await User.find({deletedAt: null}).sort('fname').select('fname lname cid rating vis _id').lean();
 		res.stdRes.data = controllers;
 	} catch(e) {
 		req.app.Sentry.captureException(e);
