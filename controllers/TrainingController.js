@@ -571,8 +571,6 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 			sessionId: session.id
 		}
 	
-		return res.json(res.stdRes);
-
 		const student = await User.findOne({cid: req.body.studentCid}).select('fname lname email').lean();
 		const instructor = await User.findOne({cid: req.body.instructorCid}).select('fname lname email').lean();
 		
@@ -597,7 +595,7 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 		res.stdRes.ret_det = e;
 	}
 
-	
+	return res.json(res.stdRes);
 });
 router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
