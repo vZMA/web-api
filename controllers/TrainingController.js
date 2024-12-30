@@ -701,11 +701,13 @@ router.delete('/session/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 
 		const instructor = await User.findOne({cid: session.instructorCid}).select('fname lname email googleCalendarId googleApiRefreshToken').lean();
 		
 		// Delete the training request if found
-		const request = await TrainingRequest.findOne({ _id: session.requestId });
+		if (session.requestId) {
+			const request = await TrainingRequest.findOne({ _id: session.requestId });
 			//cid: session.studentCid, 
 			//startTime: session.startTime, 
 			//milestoneCode: session.milestoneCode });
-		request.delete();
+			request.delete();
+			}
 
 		// Delete the google calendars
 		if (session.stuGoogleEvent){ // Delete the students google event
