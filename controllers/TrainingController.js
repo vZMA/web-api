@@ -547,6 +547,55 @@ router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'wm', 'ins', 'mtr
 	return res.json(res.stdRes);
 });
 
+router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
+	try {
+		if(new Date(req.body.startTime) >= new Date(req.body.endTime)) {
+			throw {
+				code: 400,
+				message: "End time must be greater than start time"
+			}
+		}
+			const session = await TrainingSession.create({
+				studentCid: request.studentCid,
+				instructorCid: res.user.cid,
+				startTime: req.body.startTime,
+				endTime: req.body.endTime,
+				lastReminderDate: req.body.endTime,
+				milestoneCode: request.milestoneCode,
+				submitted: false
+		});
+
+		const student = await User.findOne({cid: request.studentCid}).select('fname lname email').lean();
+		const instructor = await User.findOne({cid: res.user.cid}).select('fname lname email').lean();
+		
+		// return the session id to the calling function of the newly created training session
+		res.stdRes.data = {
+			sessionId: session.id
+		}
+
+		if (session.startTime > new Date())
+				transporter.sendMail({
+					to: `${student.email}, ${instructor.email}`,
+					from: {
+						name: "Miami ARTCC",
+						address: 'no-reply@zmaartcc.net'
+					},
+					subject: 'Training Session Created | Miami ARTCC',
+					template: 'requestTaken',
+					context: {
+						student: student.fname + ' ' + student.lname,
+						instructor: instructor.fname + ' ' + instructor.lname,
+						startTime: new Date(session.startTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}),
+						endTime: new Date(session.endTime).toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})
+					}
+		});
+	} catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+
+	return res.json(res.stdRes);
+});
 router.get('/session/open', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
 		const sessions = await TrainingSession.find({
