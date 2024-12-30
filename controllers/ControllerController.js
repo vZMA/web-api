@@ -191,7 +191,17 @@ router.get('/role', async (req, res) => {
 	
 	return res.json(res.stdRes);
 });
+router.get('/controllers', async ({res}) => { // Controller list
+	try {
+		const controllers = await User.find({deletedAt: null, member: true}).sort('fname').select('fname lname cid rating vis _id').lean();
+		res.stdRes.data = controllers;
+	} catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
 
+	return res.json(res.stdRes);
+});
 router.get('/oi', async (req, res) => {
 	try {
 		const oi = await User.find({deletedAt: null, member: true}).select('oi').lean();
