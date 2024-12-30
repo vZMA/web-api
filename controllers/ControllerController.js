@@ -207,7 +207,7 @@ router.get('/ins-and-mts', async ({res}) => { // Controller list
 		const instructors = await User.find({
             deletedAt: { $exists: false },
             member: true,
-            rolecode: { $in: ['instructors', 'training'] }, // Filter by role codes
+            rolecode: { $in: ['ins', 'mtr'] }, // Filter by role codes
         })
         .sort('fname')
         .select('fname lname cid rating vis _id rolecode') // Include rolecode if needed
