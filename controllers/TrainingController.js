@@ -555,6 +555,19 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 				message: "End time must be greater than start time"
 			}
 		}
+		if(req.body.endTime - req.body.startTime >= 3600 * 1000 * 4) {
+			throw {
+				code: 400,
+				message: "Sessions must be less than 4 hours in length"
+			}
+		}
+		if(!req.body.milestoneCode) {
+			throw {
+				code: 400,
+				message: "A Milestone Code must be seleted."
+			}
+		}
+		
 			const session = await TrainingSession.create({
 				studentCid: req.body.studentCid,
 				instructorCid: req.body.instructorCid,
@@ -574,7 +587,7 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 		const student = await User.findOne({cid: req.body.studentCid}).select('fname lname email').lean();
 		const instructor = await User.findOne({cid: req.body.instructorCid}).select('fname lname email').lean();
 		
-		if (req.body.endTime > new Date())
+		if (new Date(req.body.endTime) >= new Date())
 				transporter.sendMail({
 					to: `${student.email}, ${instructor.email}`,
 					from: {
