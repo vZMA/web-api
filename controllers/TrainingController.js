@@ -574,7 +574,7 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 		const student = await User.findOne({cid: req.body.studentCid}).select('fname lname email').lean();
 		const instructor = await User.findOne({cid: req.body.instructorCid}).select('fname lname email').lean();
 		
-		if (req.body.startTime > new Date())
+		if (req.body.endTime > new Date())
 				transporter.sendMail({
 					to: `${student.email}, ${instructor.email}`,
 					from: {
