@@ -557,7 +557,7 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 		}
 			const session = await TrainingSession.create({
 				studentCid: request.studentCid,
-				instructorCid: res.user.cid,
+				instructorCid: request.instructorCid,
 				startTime: req.body.startTime,
 				endTime: req.body.endTime,
 				lastReminderDate: req.body.endTime,
