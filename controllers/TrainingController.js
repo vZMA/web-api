@@ -573,7 +573,7 @@ router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'w
 				message: "Sessions must be less than 4 hours in length"
 			}
 		}
-		if(req.body.milestoneCode===null) {
+		if(!req.body.milestoneCode) {
 			throw {
 				code: 400,
 				message: "A Milestone Code must be set"
