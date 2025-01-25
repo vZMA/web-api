@@ -3,7 +3,7 @@ import m from 'mongoose';
 const downloadSchema = new m.Schema({
 	name: String,
 	description: String,
-	permalink: string,
+	permalink: String,
 	fileName: String,
 	category: String,
 	author: {
