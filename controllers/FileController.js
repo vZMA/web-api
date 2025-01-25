@@ -52,7 +52,9 @@ router.get('/downloads/:id', async (req, res) => {
 
 router.get('/downloads/permalink/:permalink', async (req, res) => {
 	try {
+		console.log(req.params.permalink);
 		const download = await Downloads.findOne({permalink: req.params.permalink}).lean();
+		console.log(download);
 		res.stdRes.data = download;
 	} catch(e) {
 		req.app.Sentry.captureException(e);
