@@ -76,6 +76,7 @@ router.post('/downloads', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), uplo
 		await Downloads.create({
 			name: req.body.name,
 			description: req.body.description,
+			permalink: req.body.permalink,
 			fileName: req.file.filename,
 			category: req.body.category,
 			author: req.body.author
@@ -100,6 +101,7 @@ router.put('/downloads/:id', upload.single('download'), getUser, auth(['atm', 'd
 		if(!req.file) { // no updated file provided
 			await Downloads.findByIdAndUpdate(req.params.id, {
 				name: req.body.name,
+				permalink: req.body.permalink,
 				description: req.body.description,
 				category: req.body.category
 			});
@@ -123,6 +125,7 @@ router.put('/downloads/:id', upload.single('download'), getUser, auth(['atm', 'd
 			await Downloads.findByIdAndUpdate(req.params.id, {
 				name: req.body.name,
 				description: req.body.description,
+				permalink: req.body.permalink,
 				category: req.body.category,
 				fileName: req.file.filename
 			})
@@ -183,7 +186,7 @@ router.get('/documents/:slug', async (req, res) => {
 
 router.post('/documents', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), upload.single('download'), async (req, res) => {
 	try {
-		const {name, category, description, content, type} = req.body;
+		const {name, category, description, permalink, content, type} = req.body;
 		if(!category) {
 			throw {
 				code: 400,
@@ -221,6 +224,7 @@ router.post('/documents', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), uplo
 				name,
 				category,
 				description,
+				permalink,
 				slug,
 				author: res.user.cid,
 				type: 'file',
@@ -231,6 +235,7 @@ router.post('/documents', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), uplo
 				name,
 				category,
 				description,
+				permalink,
 				content,
 				slug,
 				author: res.user.cid,
@@ -255,7 +260,7 @@ router.post('/documents', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), uplo
 router.put('/documents/:slug', upload.single('download'), getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), async (req, res) => {
 	try {
 		const document = await Document.findOne({slug: req.params.slug});
-		const {name, category, description, content, type} = req.body;
+		const {name, category, description, permalink, content, type} = req.body;
 
 		if(type === 'doc') {
 			if(document.name !== name) {
@@ -266,6 +271,7 @@ router.put('/documents/:slug', upload.single('download'), getUser, auth(['atm', 
 			document.type = 'doc';
 			document.category = category;
 			document.description = description;
+			document.permalink = permalink;
 			document.content = content;
 
 			await document.save();
@@ -274,6 +280,7 @@ router.put('/documents/:slug', upload.single('download'), getUser, auth(['atm', 
 				await Document.findOneAndUpdate({slug: req.params.slug}, {
 					name: req.body.name,
 					description: req.body.description,
+					permalink: req.body.permalink,
 					category: req.body.category,
 					type: 'file'
 				});
@@ -296,6 +303,7 @@ router.put('/documents/:slug', upload.single('download'), getUser, auth(['atm', 
 				await Document.findOneAndUpdate({slug: req.params.slug}, {
 					name: req.body.name,
 					description: req.body.description,
+					permalink: req.body.permalink,
 					category: req.body.category,
 					fileName: req.file.filename,
 					type: 'file'
