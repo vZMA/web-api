@@ -50,6 +50,18 @@ router.get('/downloads/:id', async (req, res) => {
 	return res.json(res.stdRes);
 });
 
+router.get('/downloads/permalink/:permalink', async (req, res) => {
+	try {
+		const download = await Downloads.findOne({permalink: req.params.permalink}).lean();
+		res.stdRes.data = download;
+	} catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+	
+	return res.json(res.stdRes);
+});
+
 router.post('/downloads', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), upload.single('download'), async (req, res) => {
 	try {
 		if(!req.body.category) {
