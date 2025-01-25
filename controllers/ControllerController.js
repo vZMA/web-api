@@ -882,6 +882,36 @@ router.put('/:cid/rating', microAuth, async (req, res) => {
 	return res.json(res.stdRes);
 })
 
+router.put('/:cid/lname', microAuth, async (req, res) => {
+	try {
+		const user = await User.findOne({cid: req.params.cid});
+
+		if(!user) {
+			throw {
+				code: 400,
+				message: "Unable to find user"
+			};
+		}
+
+		if (user.lname != req.body.lname) {
+			user.lname = req.body.lname;
+			
+			await user.save();
+
+			await req.app.dossier.create({
+				by: -1,
+				affected: req.params.cid,
+				action: `%a last name was set to ${req.body.lname} by an external service.`
+			});
+		};
+	}
+	catch(e) {
+		req.app.Sentry.captureException(e);
+		res.stdRes.ret_det = e;
+	}
+		
+	return res.json(res.stdRes);
+})
 router.put('/:cid/visit', microAuth, async (req, res) => {
 	try {
 		const user = await User.findOne({cid: req.params.cid});
