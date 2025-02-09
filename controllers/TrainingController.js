@@ -549,6 +549,18 @@ router.get('/session/all', getUser, auth(['atm', 'datm', 'ta', 'wm', 'ins', 'mtr
 
 router.post('/session/new', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), async (req, res) => {
 	try {
+		if(req.body.studentCid===null) {
+			throw {
+				code: 400,
+				message: "Student must be selected"
+			}
+		}
+		if(req.body.instructorCid===null) {
+			throw {
+				code: 400,
+				message: "Instructor must be selected"
+			}
+		}
 		if(req.body.startTime===null) {
 			throw {
 				code: 400,
