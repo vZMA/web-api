@@ -72,7 +72,7 @@ router.post('/downloads', getUser, auth(['atm', 'datm', 'ta', 'fe', 'wm']), uplo
 				message: 'You must select a category'
 			}
 		}
-		if(req.file.size > (100 * 1024 * 1024)) {	// 20MiB
+		if(req.file.size > (200 * 1024 * 1024)) {	// 200MiB
 			throw {
 				code: 400,
 				message: 'File too large'
