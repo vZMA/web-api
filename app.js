@@ -67,11 +67,11 @@ app.use((req, res, next) => {
 	next();
 });
 app.use(cookie());
-app.use(express.json({limit: '50mb'}));
+app.use(express.json({limit: '200mb'}));
 app.use(express.urlencoded({
-	limit: '50mb',
+	limit: '200mb',
 	extended: true,
-	parameterLimit: 50000
+	parameterLimit: 200000
 }));
 
 app.redis = new Redis(process.env.REDIS_URI);
