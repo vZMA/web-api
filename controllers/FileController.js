@@ -186,48 +186,6 @@ router.get('/documents', async ({res}) => {
 	return res.json(res.stdRes);
 });
 
-// Procedures endpoint
-router.get('/procedures', async (req, res) => {
-	try {
-		const downloads = await Downloads.find({deletedAt: null}).sort({category: "asc", name: "asc"}).lean();
-		
-		// Group downloads by category
-		const groupedProcedures = {};
-		
-		downloads.forEach(download => {
-			if (!groupedProcedures[download.category]) {
-				groupedProcedures[download.category] = [];
-			}
-			
-			// Create file object in the required format
-			const fileObj = {
-				name: download.name,
-				details: download.description || "",
-				updated_at: download.updatedAt ? new Date(download.updatedAt).toLocaleDateString('en-GB', {
-					day: '2-digit',
-					month: 'short',
-					year: 'numeric'
-				}).replace(/,/g, '') : "",
-				url: download.permalink ? `http://zmaartcc.org/files/downloads/permalink/${download.name}` : ""
-			};
-			
-			groupedProcedures[download.category].push(fileObj);
-		});
-		
-		// Convert to array format as requested
-		const proceduresArray = Object.keys(groupedProcedures).map(category => ({
-			name: category,
-			files: groupedProcedures[category]
-		}));
-		
-		res.stdRes.data = proceduresArray;
-	} catch(e) {
-		req.app.Sentry.captureException(e);
-		res.stdRes.ret_det = e;
-	}
-
-	return res.json(res.stdRes);
-});
 
 router.get('/documents/:slug', async (req, res) => {
 	try {

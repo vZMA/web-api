@@ -21,6 +21,7 @@ import IdsController from './controllers/IdsController.js';
 import TrainingController from './controllers/TrainingController.js';
 import DiscordController from './controllers/DiscordController.js';
 import StatsController from './controllers/StatsController.js';
+import ApiController from './controllers/ApiController.js';
 
 // Global Dossier Model
 import Dossier from './models/Dossier.js';
@@ -123,7 +124,7 @@ app.use('/discord', DiscordController);
 app.use('/stats', StatsController);
 
 // API v1 routes
-app.use('/api/v1', FileController);
+app.use('/api/v1', ApiController);
 
 if(process.env.NODE_ENV === 'production') app.use(Sentry.Handlers.errorHandler());
 
