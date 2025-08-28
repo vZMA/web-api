@@ -44,7 +44,11 @@ const userSchema = new m.Schema({
 	roleCodes: [],
 	trainingMilestones: [{
 		type: m.Schema.Types.ObjectId, ref: 'TrainingMilestone'
-	}]
+	}],
+	ableToRequestTraining: {
+		type: Boolean,
+		default: true
+	}
 }, {
 	timestamps: true,
 });

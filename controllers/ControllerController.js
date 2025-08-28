@@ -951,7 +951,7 @@ router.put('/:cid', getUser, auth(['atm', 'datm', 'ta', 'fe', 'ec', 'wm', 'ins',
 			};
 		}
 		
-		const {fname, lname, email, oi, roles, certs, vis} = req.body.form;
+		const {fname, lname, email, oi, roles, certs, vis, ableToRequestTraining} = req.body.form;
 		const toApply = {
 			roles: [],
 			certifications: []
@@ -986,6 +986,7 @@ router.put('/:cid', getUser, auth(['atm', 'datm', 'ta', 'fe', 'ec', 'wm', 'ins',
 			email,
 			oi,
 			vis,
+			ableToRequestTraining,
 			roleCodes: toApply.roles,
 			certCodes: toApply.certifications,
 		});
