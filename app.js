@@ -122,6 +122,9 @@ app.use('/training', TrainingController);
 app.use('/discord', DiscordController);
 app.use('/stats', StatsController);
 
+// API v1 routes
+app.use('/api/v1', FileController);
+
 if(process.env.NODE_ENV === 'production') app.use(Sentry.Handlers.errorHandler());
 
 app.listen('3000', () =>{
