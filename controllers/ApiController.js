@@ -36,7 +36,7 @@ router.get('/procedures', async (req, res) => {
 
       // Build absolute URL using request context; fallback to https if behind proxy sets x-forwarded-proto
       const proto = req.headers['x-forwarded-proto'] || req.protocol || 'https';
-      const host = req.headers.host || 'zmaartcc.org';
+      const host = 'zmaartcc.org';
       const permalinkUrl = d.permalink
         ? `${proto}://${host}/files/downloads/permalink/${encodeURIComponent(d.permalink)}`
         : '';
