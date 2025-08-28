@@ -34,19 +34,25 @@ router.get('/procedures', async (req, res) => {
           }).replace(/,/g, '')
         : '';
 
-      // Build absolute URL using request context; fallback to https if behind proxy sets x-forwarded-proto
-      const proto = req.headers['x-forwarded-proto'] || req.protocol || 'https';
-      const host = 'zmaartcc.net';
-      const permalinkUrl = d.permalink
-        ? `${proto}://${host}/files/downloads/permalink/${encodeURIComponent(d.permalink)}`
-        : '';
+             // Use direct file URL instead of permalink
+       const fileUrl = d.fileName
+         ? `https://zma-web.nyc3.digitaloceanspaces.com/downloads/${d.fileName}`
+         : '';
 
-      grouped[category].push({
-        name: d.name || '',
-        details: d.description || '',
-        updated_at: updatedAt,
-        url: permalinkUrl,
-      });
+       // Build permalink URL
+       const proto = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+       const host = 'zmaartcc.net';
+       const permalinkUrl = d.permalink
+         ? `${proto}://${host}/files/downloads/permalink/${encodeURIComponent(d.permalink)}`
+         : '';
+
+       grouped[category].push({
+         name: d.name || '',
+         details: d.description || '',
+         updated_at: updatedAt,
+         url: fileUrl,
+         permalink: permalinkUrl,
+       });
     });
 
     const procedures = Object.keys(grouped).map(name => ({
