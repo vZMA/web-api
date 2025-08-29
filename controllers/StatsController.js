@@ -283,20 +283,43 @@ router.post('/fifty/:cid', microAuth, async (req, res) => {
 const getFiftyData = async cid => {
 	const today = L.utc();
 	const chkDate = today.minus({days: 60});
-	
-	const {data: fiftyData} = await axios.get(`https://api.vatsim.net/api/ratings/${cid}/atcsessions/?start=${chkDate.toISODate()}&group_by_callsign`);
-	
-	let total = 0;
-	
-	for(const session of fiftyData.results) {
-		const callsignParts = session.callsign.split('_');
+	const url = `https://api.vatsim.net/api/ratings/${cid}/atcsessions/?start=${chkDate.toISODate()}&group_by_callsign`;
 
-		if(!zab.atcPos.includes(callsignParts[0])) {
-			total += session.total_minutes_on_callsign;
+	const attempts = 5;         // max retries
+	const baseDelayMs = 750;    // initial backoff
+
+	let lastErr;
+	for (let i = 0; i < attempts; i++) {
+		try {
+			const { data: fiftyData } = await axios.get(url, {
+				headers: { 'User-Agent': 'zab-stats-service/1.0' }
+			});
+
+			let total = 0;
+			for (const session of (fiftyData.results || [])) {
+				const callsignParts = (session.callsign || '').split('_');
+				if (!zab.atcPos.includes(callsignParts[0])) {
+					total += session.total_minutes_on_callsign || 0;
+				}
+			}
+			return total;
+		} catch (err) {
+			lastErr = err;
+			const status = err?.response?.status;
+			if (status === 429 || status >= 500 || status === undefined) {
+				let delayMs = baseDelayMs * Math.pow(2, i);
+				const ra = err?.response?.headers?.['retry-after'];
+				if (status === 429 && ra) {
+					const seconds = Number(ra);
+					if (Number.isFinite(seconds)) delayMs = seconds * 1000;
+				}
+				await new Promise(r => setTimeout(r, delayMs));
+				continue;
+			}
+			throw err;
 		}
 	}
-
-	return total;
-}
+	throw lastErr;
+};
 
 export default router;
