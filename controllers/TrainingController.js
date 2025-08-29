@@ -93,6 +93,15 @@ router.post('/request/new', getUser, async (req, res) => {
 			}
 		}
 
+		const user = await User.findOne({ cid: res.user.cid }).select('ableToRequestTraining').lean();
+
+		if (!user || !user.ableToRequestTraining) {
+			throw {
+				code: 400,
+				message: "You are not allowed to request training. Contact the TA if this is wrong."
+			};
+		}
+
 		const totalRequests = await req.app.redis.get(`TRAININGREQ:${res.user.cid}`);
 		
 		if( auth(['wm']) )
