@@ -282,7 +282,12 @@ router.post('/fifty/:cid', microAuth, async (req, res) => {
 
 const getFiftyData = async cid => {
 	const today = L.utc();
-	const chkDate = today.minus({days: 60});
+	
+	// Calculate current quarter start date
+	const currentQuarter = Math.ceil(today.month / 3);
+	const quarterStartMonth = (currentQuarter - 1) * 3 + 1; // 1, 4, 7, or 10
+	const chkDate = L.utc(today.year, quarterStartMonth, 1);
+	
 	const url = `https://api.vatsim.net/api/ratings/${cid}/atcsessions/?start=${chkDate.toISODate()}&group_by_callsign`;
 
 	const attempts = 5;         // max retries
