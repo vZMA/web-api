@@ -723,14 +723,15 @@ router.get('/session/remind', async (req, res) => {
 });
 
 router.get('/session/purge', async (req, res) => {
-	//try {
+	try {
 	//	const deletedSessions = await TrainingRequest.deleteMany({
 	//		deleted: true,
 	//		endTime: {
 	//			$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
 	//	}
 	//	});
-	} catch(e) {
+	}
+	 catch(e) {
 		res.stdRes.ret_det = e;
 	}
 	
