@@ -14,12 +14,12 @@ import { runInNewContext } from 'vm';
 
 router.get('/request/purge', async (req, res) => {
 	try {
-		const deletedTraining = await TrainingRequest.deleteMany({
-			deleted: true,
-			endTime: {
-				$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
-				}
-			});
+		//const deletedTraining = await TrainingRequest.deleteMany({
+		//	deleted: true,
+		//	endTime: {
+		//		$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
+		//		}
+		//	});
 
 		const oldTraining = await TrainingRequest.updateMany(
 			{
@@ -723,13 +723,13 @@ router.get('/session/remind', async (req, res) => {
 });
 
 router.get('/session/purge', async (req, res) => {
-	try {
-		const deletedSessions = await TrainingRequest.deleteMany({
-			deleted: true,
-			endTime: {
-				$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
-		}
-		});
+	//try {
+	//	const deletedSessions = await TrainingRequest.deleteMany({
+	//		deleted: true,
+	//		endTime: {
+	//			$lt: new Date(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toUTCString()) // end time of request is in the past
+	//	}
+	//	});
 	} catch(e) {
 		res.stdRes.ret_det = e;
 	}
