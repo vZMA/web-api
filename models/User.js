@@ -47,7 +47,7 @@ const userSchema = new m.Schema({
 	}],
 	ableToRequestTraining: {
 		type: Boolean,
-		default: true
+		default: false
 	}
 }, {
 	timestamps: true,
