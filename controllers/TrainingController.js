@@ -390,6 +390,22 @@ router.delete('/request/:id', getUser, async (req, res) => {
 	return res.json(res.stdRes);
 });
 
+router.get('/request/bystudent/:cid', async (req, res) => {
+  try {
+    const cid = req.params.cid;
+
+    const requests = await TrainingRequest.find({
+      studentCid: cid
+    })
+    .populate('student')
+    .populate('instructor');
+
+    res.json({ data: requests });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.get('/solo', getUser, 
 //auth(['atm', 'datm', 'ta', 'ins', 'mtr', 'wm']), 
 async (req, res) => {
@@ -1078,6 +1094,23 @@ router.put('/session/submit/:id', getUser, auth(['atm', 'datm', 'ta', 'ins', 'mt
 
 	return res.json(res.stdRes);
 });
+
+router.get('/session/bystudent/:cid', async (req, res) => {
+  try {
+    const cid = req.params.cid;
+
+    const sessions = await TrainingSession.find({
+      studentCid: cid
+    })
+    .populate('student')
+    .populate('instructor');
+
+    res.json({ data: sessions });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 router.post('/session/google/cal-create', getUser, async( req, res ) => {
 	// API Function to create a google calendar entry
 	const googleUser = await User.findOne({cid: req.body.cid}).select('googleApiRefreshToken').lean();	
