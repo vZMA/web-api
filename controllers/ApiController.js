@@ -73,7 +73,7 @@ router.get('/procedures', async (req, res) => {
       files: grouped[name],
     }));
 
-    res.stdRes.data = procedures;
+    res.stdRes = procedures;
   } catch (e) {
     req.app.Sentry.captureException(e);
     res.stdRes.ret_det = { code: 500, message: e.message || 'Internal Server Error' };
