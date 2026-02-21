@@ -20,10 +20,23 @@ router.get('/procedures', async (req, res) => {
       .sort({ category: 'asc', name: 'asc' })
       .lean();
 
+      // Map raw database strings to readable category titles
+    const categoryMap = {
+      eloa: 'External LOAs',
+      iloa: 'Internal LOAs',
+      mfr: 'SOPs',
+      references: 'References',
+      sectorFiles: 'Sector Files',
+      training: 'Training'
+    };
+
     const grouped = {};
 
     downloads.forEach(d => {
-      const category = d.category || 'Uncategorized';
+      // Get readable name from map, or capitalize the raw string as a fallback
+      const rawCategory = d.category || 'uncategorized';
+      const category = categoryMap[rawCategory] || (rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1));
+      
       if (!grouped[category]) grouped[category] = [];
 
       const updatedAt = d.updatedAt
