@@ -36,7 +36,7 @@ router.get('/procedures', async (req, res) => {
 
              // Use direct file URL instead of permalink
        const fileUrl = d.fileName
-         ? `https://zma-web.nyc3.digitaloceanspaces.com/downloads/${d.fileName}`
+         ? `https://zma-web.nyc3.digitaloceanspaces.com/downloads/${encodeURIComponent(d.fileName)}`
          : '';
 
        // Build permalink URL
