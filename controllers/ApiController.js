@@ -33,6 +33,8 @@ router.get('/procedures', async (req, res) => {
     const grouped = {};
 
     downloads.forEach(d => {
+      if (d.category === 'sectorFiles') return;
+      
       // Get readable name from map, or capitalize the raw string as a fallback
       const rawCategory = d.category || 'uncategorized';
       const category = categoryMap[rawCategory] || (rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1));
