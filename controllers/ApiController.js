@@ -34,7 +34,7 @@ router.get('/procedures', async (req, res) => {
 
     downloads.forEach(d => {
       if (d.category === 'sectorFiles') return;
-      
+
       // Get readable name from map, or capitalize the raw string as a fallback
       const rawCategory = d.category || 'uncategorized';
       const category = categoryMap[rawCategory] || (rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1));
@@ -70,10 +70,20 @@ router.get('/procedures', async (req, res) => {
        });
     });
 
-    const procedures = Object.keys(grouped).map(name => ({
-      name,
-      files: grouped[name],
-    }));
+    const categoryOrder = [
+      categoryMap.mfr,
+      categoryMap.iloa,
+      categoryMap.eloa,
+      categoryMap.references,
+      categoryMap.training,
+    ];
+    
+    const procedures = categoryOrder
+      .filter(category => grouped[category])
+      .map(name => ({
+        name,
+        files: grouped[name],
+      }));
 
     res.stdRes = procedures;
   } catch (e) {
