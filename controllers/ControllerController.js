@@ -692,6 +692,8 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res)
 
 		await user.save();
 
+		await axios.post(`https://api.vatusa.net/v2/facility/ZMA/roster/manageVisitor/${req.params.cid}?apikey=${process.env.VATUSA_API_KEY}`)
+
 		await transporter.sendMail({
 			to: user.email,
 			from: {
@@ -705,8 +707,7 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res)
 			}
 		});
 
-		await axios.post(`https://api.vatusa.net/v2/facility/ZMA/roster/manageVisitor/${req.params.cid}?apikey=${process.env.VATUSA_API_KEY}`)
-
+		
 		await req.app.dossier.create({
 			by: res.user.cid,
 			affected: user.cid,
@@ -798,7 +799,7 @@ router.post('/:cid', microAuth, async (req, res) => {
 			to: "atm@zmaartcc.net; datm@zmaartcc.net; ta@zmaartcc.net",
 			from: {
 				name: "Miami ARTCC",
-				address: 'noreply@zmaartcc.org'
+				address: 'noreply@zmaartcc.net'
 			},
 			subject: `New ${req.body.vis ? 'Visitor' : 'Member'}: ${req.body.fname} ${req.body.lname} | Miami ARTCC`,
 			template: 'newController',
