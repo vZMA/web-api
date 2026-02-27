@@ -630,7 +630,7 @@ console.log(userData);
 			to: req.body.email,
 			from: {
 				name: "Miami ARTCC",
-				address: 'noreply@zmaartcc.net'
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `Visiting Application Received | Miami ARTCC`,
 			template: 'visitReceived',
@@ -642,7 +642,7 @@ console.log(userData);
 			to: 'atm@zmaartcc.net, datm@zmaartcc.net',
 			from: {
 				name: "Miami ARTCC",
-				address: 'noreply@zmaartcc.net'
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `New Visiting Application: ${res.user.fname} ${res.user.lname} | Miami ARTCC`,
 			template: 'staffNewVisit',
@@ -700,7 +700,7 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res)
 			to: user.email,
 			from: {
 				name: "Miami ARTCC",
-				address: 'noreply@zmaartcc.net'
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `Visiting Application Accepted | Miami ARTCC`,
 			template: 'visitAccepted',
@@ -736,7 +736,7 @@ router.delete('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, r
 			to: user.email,
 			from: {
 				name: "Miami ARTCC",
-				address: 'noreply@zmaartcc.net'
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `Visiting Application Rejected | Miami ARTCC`,
 			template: 'visitRejected',
@@ -801,7 +801,7 @@ router.post('/:cid', microAuth, async (req, res) => {
 			to: "atm@zmaartcc.net; datm@zmaartcc.net; ta@zmaartcc.net",
 			from: {
 				name: "Miami ARTCC",
-				address: 'noreply@zmaartcc.net'
+				address: 'no-reply@zmaartcc.net'
 			},
 			subject: `New ${req.body.vis ? 'Visitor' : 'Member'}: ${req.body.fname} ${req.body.lname} | Miami ARTCC`,
 			template: 'newController',
