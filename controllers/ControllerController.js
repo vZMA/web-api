@@ -605,11 +605,18 @@ router.post('/visit', getUser, async (req, res) => {
 			};
 		}
 
+		if (!req.body.email || !req.body.facility || !req.body.reason) {
+			throw {
+				code: 400,
+				message: "Missing required fields: email, facility, reason"
+			};
+		}
+
 		const userData = {
 			cid: res.user.cid,
 			fname: res.user.fname,
 			lname: res.user.lname,
-			rating: res.user.ratingLong,
+			rating: res.user.ratingLong ?? res.user.rating ?? 'Unknown',
 			email: req.body.email,
 			home: req.body.facility,
 			reason: req.body.reason
@@ -673,6 +680,8 @@ router.put('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, res)
 		await VisitApplication.delete({cid: req.params.cid});
 
 		const user = await User.findOne({cid: req.params.cid});
+		if(!user) throw { code: 404, message: "User not found" };
+
 		const oi = await User.find({deletedAt: null, member: true}).select('oi').lean();
 		const userOi = generateOperatingInitials(user.fname, user.lname, oi.map(oi => oi.oi))
 
@@ -718,6 +727,7 @@ router.delete('/visit/:cid', getUser, auth(['atm', 'datm', 'wm']), async (req, r
 		await VisitApplication.delete({cid: req.params.cid});
 
 		const user = await User.findOne({cid: req.params.cid});
+		if(!user) throw { code: 404, message: "User not found" };
 
 		await transporter.sendMail({
 			to: user.email,
@@ -1084,7 +1094,7 @@ const generateOperatingInitials = (fname, lname, usedOi) => {
 	do {
 		operatingInitials = random(chars, 2);
 		tries++;
-	} while(usedOi.includes(operatingInitials) || tries > MAX_TRIES);
+	} while(usedOi.includes(operatingInitials) && tries < MAX_TRIES);
 
 	if(!usedOi.includes(operatingInitials)) {
 		return operatingInitials;
@@ -1095,7 +1105,7 @@ const generateOperatingInitials = (fname, lname, usedOi) => {
 	do {
 		operatingInitials = random('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 2);
 		tries++;
-	} while(usedOi.includes(operatingInitials) || tries > MAX_TRIES);
+	} while(usedOi.includes(operatingInitials) && tries < MAX_TRIES);
 
 	if(!usedOi.includes(operatingInitials)) {
 		return operatingInitials;
