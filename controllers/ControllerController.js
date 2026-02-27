@@ -624,6 +624,8 @@ router.post('/visit', getUser, async (req, res) => {
 
 		await VisitApplication.create(userData);
 		
+console.log(userData);
+
 		await transporter.sendMail({
 			to: req.body.email,
 			from: {
